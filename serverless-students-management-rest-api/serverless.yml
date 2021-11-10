@@ -1,0 +1,74 @@
+service: student-management-rest-api
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-southeast-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:ap-southeast-1:*:*
+
+resources:
+  Resources:
+    StudentsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'students'
+
+functions:
+  createStudent:
+    handler: src/handler/students/createStudent.createStudent
+    events:
+      - http:
+          path: students
+          method: post
+          cors: true
+  listStudent:
+    handler: src/handler/students/listStudent.listStudent
+    events:
+      - http:
+          path: students
+          method: get
+          cors: true
+  getStudent:
+    handler: src/handler/students/getStudent.getStudent
+    events:
+      - http:
+          path: students/{id}
+          method: get
+          cors: true
+  updateStudent:
+    handler: src/handler/students/updateStudent.updateStudent
+    events:
+      - http:
+          path: students/{id}
+          method: put
+          cors: true
+  deleteStudent:
+    handler: src/handler/students/deleteStudent.deleteStudent
+    events:
+      - http:
+          path: students/{id}
+          method: delete
+          cors: true
