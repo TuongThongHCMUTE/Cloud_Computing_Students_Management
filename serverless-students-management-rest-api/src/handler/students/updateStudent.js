@@ -24,41 +24,25 @@ module.exports.updateStudent = (event, context, callback) => {
     //     return;
     // }
 
+    const updates = Object.keys(data)
+    const expressionAttributeValues = {}
+    var updateExpression = 'set '
+
+    updates.forEach((update) => {
+        expressionAttributeValues[':' + update] = data[update]
+        updateExpression = updateExpression + update + ' = :' + update + ', '
+})
+
     const params = {
         TableName: 'students',
         Key: {
             id: event.pathParameters.id
         },
         ExpressionAttributeValues: {
-            ':id': data.studentId,
-            ':name': data.name,
-            ':image': data.image,
-            ':gender': data.gender,
-            ':dob': data.dateOfBirth,
-            ":ethnic": data.ethnicGroup,
-            ":major": data.major,
-            ":class": data.class,
-            ":faculty": data.faculty,
-            ":position": data.position,
-            ":phone": data.phoneNumber,
-            ":address": data.address,
-            ":active": data.activate,
+            ...expressionAttributeValues,
             ':u': datetime
         },
-        UpdateExpression:   'set studentId = :id, ' +
-                            'name = :name, ' +
-                            'image = :image, ' + 
-                            'gender = :gender, ' +
-                            'dateOfBirth = :dob, ' + 
-                            'ethnicGroup = :ethnic, ' +
-                            'major = :major, ' + 
-                            'class = :class, ' +
-                            'faculty = :faculty, ' +
-                            'position = :position, ' + 
-                            'phoneNumber = :phone, ' +
-                            'address = :address, ' + 
-                            'active = :active, ' +
-                            'updatedAt = :u'
+        UpdateExpression: updateExpression + 'updatedAt = :u'
 
     };
 

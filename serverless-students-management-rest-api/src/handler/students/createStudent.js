@@ -29,20 +29,7 @@ module.exports.createStudent = (event, context, callback) => {
         TableName: 'students',
         Item: {
             id: uuid.v1(),
-            name: data.name, 
-            image: data.image,
-            gender: data.gender,
-            dateOfBirth: data.dateOfBirth,
-            ethnicGroup: data.ethnicGroup,
-            major: data.major,
-            studentId: data.studentId,
-            class: data.class,
-            faculty: data.faculty,
-            position: data.position,
-            phoneNumber: data.phoneNumber,
-            email: data.email,
-            address: data.address,
-            actived: true,
+            ...data,
             createdAt: datetime,
             updatedAt: datetime
         }
