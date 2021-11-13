@@ -1,6 +1,6 @@
 /**
  * 
- * @author AJ Catambay | Bridging Code 2020
+ * @author Group 10
  * 
  */
 'use strict'
@@ -14,16 +14,6 @@ module.exports.createStudent = (event, context, callback) => {
 
     const datetime = new Date().toISOString();
     const data = JSON.parse(event.body);
-
-    // if( typeof data.task !== 'string' ) {
-    //     console.error('Task is not a string');
-    //     const response = {
-    //         statusCode: 400,
-    //         body: JSON.stringify({ "message":"Task is not a string." })
-    //     }
-
-    //     return;
-    // }
 
     const params = {
         TableName: 'students',

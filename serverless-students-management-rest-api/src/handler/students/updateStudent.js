@@ -1,6 +1,6 @@
 /**
  * 
- * @author AJ Catambay | Bridging Code 2020
+ * @author Group 10
  * 
  */
 'use strict'
