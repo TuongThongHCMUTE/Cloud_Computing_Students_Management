@@ -3,15 +3,14 @@
  * @author Group 10
  * 
  */
-'use strict'
+ 'use strict'
 
-const AWS = require('aws-sdk');
-const uuid = require('uuid');
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
-
-module.exports.createStudent = (event, context, callback) => {
-
+ const AWS = require('aws-sdk');
+ const uuid = require('uuid');
+ 
+ const dynamoDb = new AWS.DynamoDB.DocumentClient();
+ 
+ module.exports.register = (event, context, callback) => { 
     const datetime = new Date().toISOString();
     const data = JSON.parse(event.body);
 
@@ -35,9 +34,13 @@ module.exports.createStudent = (event, context, callback) => {
 
         const response = {
             statusCode: 201,
-            body: JSON.stringify(data.Item)
+            body: JSON.stringify({
+               status: 'success',
+               message: 'Đăng ký thành công',
+               data: params.Item
+            })
         };
 
         callback(null, response);
     });
-}
+ }

@@ -31,7 +31,7 @@ module.exports.updateStudent = (event, context, callback) => {
     updates.forEach((update) => {
         expressionAttributeValues[':' + update] = data[update]
         updateExpression = updateExpression + update + ' = :' + update + ', '
-})
+    })
 
     const params = {
         TableName: 'students',

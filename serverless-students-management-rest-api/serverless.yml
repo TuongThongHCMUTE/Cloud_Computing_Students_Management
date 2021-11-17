@@ -37,6 +37,20 @@ resources:
         TableName: 'students'
 
 functions:
+  registerStudent:
+    handler: src/handler/auth/register.register
+    events:
+      - http:
+          path: auth/register
+          method: post
+          cors: true
+  login:
+    handler: src/handler/auth/login.login
+    events:
+      - http:
+          path: auth/login
+          method: post
+          cors: true
   createStudent:
     handler: src/handler/students/createStudent.createStudent
     events:
