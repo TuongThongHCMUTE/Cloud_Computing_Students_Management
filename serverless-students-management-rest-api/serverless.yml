@@ -51,13 +51,6 @@ functions:
           path: auth/login
           method: post
           cors: true
-  createStudent:
-    handler: src/handler/students/createStudent.createStudent
-    events:
-      - http:
-          path: students
-          method: post
-          cors: true
   listStudent:
     handler: src/handler/students/listStudent.listStudent
     events:
@@ -65,6 +58,7 @@ functions:
           path: students
           method: get
           cors: true
+    timeout: 20
   getStudent:
     handler: src/handler/students/getStudent.getStudent
     events:
