@@ -89,6 +89,15 @@ functions:
           path: students/{id}
           method: get
           cors: true
+    timeout: 20
+  createStudent:
+    handler: src/handler/students/createStudent.createStudent
+    events:
+      - http:
+          path: students
+          method: post
+          cors: true
+    
   updateStudent:
     handler: src/handler/students/updateStudent.updateStudent
     events:
@@ -96,6 +105,7 @@ functions:
           path: students/{id}
           method: put
           cors: true
+    timeout: 20
   deleteStudent:
     handler: src/handler/students/deleteStudent.deleteStudent
     events:
@@ -103,6 +113,7 @@ functions:
           path: students/{id}
           method: delete
           cors: true
+    timeout: 20
   createManager:
     handler: src/handler/managers/createManager.createManager
     events:

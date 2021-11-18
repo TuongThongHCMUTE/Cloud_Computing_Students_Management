@@ -8,12 +8,18 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.deleteStudent = (event, context, callback) => {
+const redis = require('redis');
+const redisUrl = 'redis://3.0.19.255:7001';
+const redisClient = redis.createClient(redisUrl);
 
+module.exports.deleteStudent = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+
+    const studentId = event.pathParameters.id;
     const params = {
         TableName: 'students',
         Key: {
-            id: event.pathParameters.id
+            id: studentId
         }
     };
 
@@ -28,6 +34,24 @@ module.exports.deleteStudent = (event, context, callback) => {
             statusCode: 200,
             body: JSON.stringify({})
         };
+
+        if (response.statusCode === 200) {
+            console.log(`REMOVE STUDENT ${studentId} IN REDIS`);
+            redisClient.hdel("students", studentId, (err, val) => {
+                if(err) {
+                    console.log("ERR: ",err);
+                }
+                console.log("VAL: ", val);
+            })
+
+            console.log("REMOVE LIST STUDENTS FROM REDIS");
+            redisClient.hdel("students", "all", (err, val) => {
+                if(err) {
+                    console.log("ERR: ",err);
+                }
+                console.log("VAL: ", val);
+            })               
+        }
 
         callback(null, response);
     });
