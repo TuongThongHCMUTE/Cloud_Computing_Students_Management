@@ -1,0 +1,6 @@
+.banner {
+    position: relative;
+    margin-top: 60px;
+    padding-top: 50%;
+    background: url(../../../../assets/images/banner/banner.png) center / cover no-repeat;
+}

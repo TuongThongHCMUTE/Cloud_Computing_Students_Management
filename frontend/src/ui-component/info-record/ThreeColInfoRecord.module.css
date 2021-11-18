@@ -1,0 +1,19 @@
+.record {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 12px 8px;
+}
+
+.title {
+    flex: 0.4;
+    font-weight: bold;
+}
+
+.divider {
+    flex: 0.25;
+}
+
+.value {
+    flex: 1;
+}

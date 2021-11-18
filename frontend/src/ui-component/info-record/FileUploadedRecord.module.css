@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--color-medium-gray);
+    border-radius: 5px;
+    margin-top: 12px;
+    background: var(--color-veryLight-gray);
+}
+
+.file {
+    padding: 4px 16px;
+}
+
+.btn {
+    height: 32px;
+    width: 32px;
+    background: var(--color-medium-gray);
+    border-radius: 0 5px 5px 0;
+    text-align: center;
+    margin: -1px;
+}
+
+.btn:hover {
+    background: #f00;
+    color: var(--color-white);
+}
+
+.icon {
+    width: 28px;
+    height: 32px;
+}

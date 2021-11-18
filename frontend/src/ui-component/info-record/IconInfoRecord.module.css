@@ -1,0 +1,31 @@
+.record {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    color: var(--color-veryDark-gray);
+}
+
+.title-icon {
+    transform: scale(0.8);
+}
+
+.title-text {
+    margin-left: 4px;
+    font-weight: bold;
+}
+
+.title-value {
+    font-size: 14px;
+    color: var(--color-dark-gray);
+}
+
+.line {
+    margin-top: 12px;
+    border-color: var(--color-light-gray);
+}
