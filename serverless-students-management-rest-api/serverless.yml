@@ -35,6 +35,22 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: 'students'
+    ManagersTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'managers'
 
 functions:
   registerStudent:
@@ -49,6 +65,13 @@ functions:
     events:
       - http:
           path: auth/login
+          method: post
+          cors: true
+  changePassword:
+    handler: src/handler/auth/changePassword.changePassword
+    events:
+      - http:
+          path: auth/changePassword
           method: post
           cors: true
   listStudent:
@@ -78,5 +101,40 @@ functions:
     events:
       - http:
           path: students/{id}
+          method: delete
+          cors: true
+  createManager:
+    handler: src/handler/managers/createManager.createManager
+    events:
+      - http:
+          path: managers
+          method: post
+          cors: true
+  listManager:
+    handler: src/handler/managers/listManager.listManager
+    events:
+      - http:
+          path: managers
+          method: get
+          cors: true
+  getManager:
+    handler: src/handler/managers/getManager.getManager
+    events:
+      - http:
+          path: managers/{id}
+          method: get
+          cors: true
+  updateManager:
+    handler: src/handler/managers/updateManager.updateManager
+    events:
+      - http:
+          path: managers/{id}
+          method: put
+          cors: true
+  deleteManager:
+    handler: src/handler/managers/deleteManager.deleteManager
+    events:
+      - http:
+          path: managers/{id}
           method: delete
           cors: true

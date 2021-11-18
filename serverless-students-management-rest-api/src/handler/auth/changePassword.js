@@ -10,8 +10,7 @@
  
  const dynamoDb = new AWS.DynamoDB.DocumentClient();
  
- module.exports.login = (event, context, callback) => { 
-    const datetime = new Date().toISOString();
+ module.exports.changePassword = (event, context, callback) => {
     const body = JSON.parse(event.body);
 
     const params = {
@@ -32,36 +31,56 @@
             if (data.Item.password === body.password) {
                 data.Item.password = body.newPassword
                 
+                // Change password
+                const datetime = new Date().toISOString();
+                const paramsUpdate = {
+                    TableName: 'students',
+                    Key: {
+                        id: body.email
+                    },
+                    ExpressionAttributeValues: {
+                        ':password': body.newPassword,
+                        ':u': datetime
+                    },
+                    UpdateExpression: 'set password = :password, updatedAt = :u'
+                };
                 
-
+                dynamoDb.update(paramsUpdate, (error, dataUpdate) => {
+                    if(error) {
+                        console.error(error);
+                        callback(new Error(error));
+                        return;
+                    }
+                
+                    const response = {
+                        statusCode: 201,
+                        body: JSON.stringify({
+                            status: 'success',
+                            message: 'Cập nhật mật khẩu thành công',
+                            data: data.Item
+                        })
+                    }
+                    callback(null, response);
+                });
+            } else {
                 const response = {
-                    statusCode: 201,
+                    statusCode: 404,
                     body: JSON.stringify({
-                        status: 'success',
-                        message: 'Đăng nhập thành công',
-                        data: data.Item
+                        status: 'fail',
+                        message: 'Mật khẩu hiện tại không đúng'
                     })
-                }
+                };
                 callback(null, response);
             }
-
-            const response = {
+        } else {
+            const response =  {
                 statusCode: 404,
                 body: JSON.stringify({
                     status: 'fail',
-                    message: 'Mật khẩu hiện tại không đúng'
+                    message: 'Tài khoản không tồn tại'
                 })
             };
             callback(null, response);
         }
-
-        const response =  {
-            statusCode: 404,
-            body: JSON.stringify({
-                status: 'fail',
-                message: 'Email không tồn tại'
-            })
-        };
-        callback(null, response);
     });
- }
+}
