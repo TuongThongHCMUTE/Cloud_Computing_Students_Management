@@ -8,7 +8,7 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.deleteSchoolYears = (event, context, callback) => {
+module.exports.deleteSchoolYear = (event, context, callback) => {
 
 	const params = {
 		TableName: 'schoolYears',

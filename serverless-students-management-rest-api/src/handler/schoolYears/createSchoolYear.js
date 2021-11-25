@@ -10,7 +10,7 @@ const uuid = require('uuid');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.createSchoolYears = (event, context, callback) => {
+module.exports.createSchoolYear = (event, context, callback) => {
 
     const datetime = new Date().toISOString();
     const data = JSON.parse(event.body);

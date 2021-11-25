@@ -51,6 +51,38 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: 'managers'
+    FacultysTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'facultys'
+    SchoolYearsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'schoolYears'
 
 functions:
   registerStudent:
@@ -147,5 +179,75 @@ functions:
     events:
       - http:
           path: managers/{id}
+          method: delete
+          cors: true
+  createFaculty:
+    handler: src/handler/facultys/createFaculty.createFaculty
+    events:
+      - http:
+          path: facultys
+          method: post
+          cors: true
+  listFaculty:
+    handler: src/handler/facultys/listFaculty.listFaculty
+    events:
+      - http:
+          path: facultys
+          method: get
+          cors: true
+  getFaculty:
+    handler: src/handler/facultys/getFaculty.getFaculty
+    events:
+      - http:
+          path: facultys/{id}
+          method: get
+          cors: true
+  updateFaculty:
+    handler: src/handler/facultys/updateFaculty.updateFaculty
+    events:
+      - http:
+          path: facultys/{id}
+          method: put
+          cors: true
+  deleteFaculty:
+    handler: src/handler/facultys/deleteFaculty.deleteFaculty
+    events:
+      - http:
+          path: facultys/{id}
+          method: delete
+          cors: true
+  createSchoolYear:
+    handler: src/handler/schoolYears/createSchoolYear.createSchoolYear
+    events:
+      - http:
+          path: schoolYears
+          method: post
+          cors: true
+  listSchoolYear:
+    handler: src/handler/schoolYears/listSchoolYear.listSchoolYear
+    events:
+      - http:
+          path: schoolYears
+          method: get
+          cors: true
+  getSchoolYear:
+    handler: src/handler/schoolYears/getSchoolYear.getSchoolYear
+    events:
+      - http:
+          path: schoolYears/{id}
+          method: get
+          cors: true
+  updateSchoolYear:
+    handler: src/handler/schoolYears/updateSchoolYear.updateSchoolYear
+    events:
+      - http:
+          path: schoolYears/{id}
+          method: put
+          cors: true
+  deleteSchoolYear:
+    handler: src/handler/schoolYears/deleteSchoolYear.deleteSchoolYear
+    events:
+      - http:
+          path: schoolYears/{id}
           method: delete
           cors: true

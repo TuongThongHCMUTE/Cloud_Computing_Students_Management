@@ -9,7 +9,7 @@ const AWS = require('aws-sdk');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.updateSchoolYears = (event, context, callback) => {
+module.exports.updateSchoolYear = (event, context, callback) => {
 
     const datetime = new Date().toISOString();
     const data = JSON.parse(event.body);

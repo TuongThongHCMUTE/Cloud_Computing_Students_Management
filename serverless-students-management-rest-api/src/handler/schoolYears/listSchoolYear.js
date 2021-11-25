@@ -8,7 +8,7 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.listSchoolYears = (event, context, callback) => {
+module.exports.listSchoolYear = (event, context, callback) => {
     // Otherwise, exec the query
     const params = {
         TableName: 'schoolYears'

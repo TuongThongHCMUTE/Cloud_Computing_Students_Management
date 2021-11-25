@@ -69,7 +69,7 @@ const About = () => {
                             </Box>
                         </Box>
                     </Box>
-                    {/* <Box className={classes.author}>
+                    <Box className={classes.author}>
                         <img className={classes['author-image']} src={imgDienTVB} alt=""/>
                         <Box className={classes['author-info']}>
                             <Typography className={classes['author-name']}>Trần Võ Bửu Điền</Typography>
@@ -80,7 +80,7 @@ const About = () => {
                                 <Link to="#"><GitHubIcon/></Link>
                             </Box>
                         </Box>
-                    </Box> */}
+                    </Box>
                     <Box className={classes.author}>
                         <img className={classes['author-image']} src={imgTuongLN} alt=""/>
                         <Box className={classes['author-info']}>
