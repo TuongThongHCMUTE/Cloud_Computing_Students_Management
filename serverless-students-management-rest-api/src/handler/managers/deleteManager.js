@@ -26,7 +26,10 @@ module.exports.deleteManager = (event, context, callback) => {
 
         const response = {
             statusCode: 200,
-            body: JSON.stringify({})
+            body: JSON.stringify({
+                status: 'success',
+                data: data.Item
+            })
         };
 
         callback(null, response);

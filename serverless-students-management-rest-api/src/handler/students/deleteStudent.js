@@ -32,7 +32,10 @@ module.exports.deleteStudent = (event, context, callback) => {
 
         const response = {
             statusCode: 200,
-            body: JSON.stringify({})
+            body: JSON.stringify({
+                status: 'success',
+                data: data.Item
+            })
         };
 
         if (response.statusCode === 200) {

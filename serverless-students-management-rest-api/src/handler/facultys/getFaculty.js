@@ -26,10 +26,16 @@ module.exports.getFaculty = (event, context, callback) => {
 
         const response = data.Item ? {
             statusCode: 200,
-            body: JSON.stringify(data.Item)
+            body: JSON.stringify({
+                status: 'success',
+                data: data.Item
+            })
         }: {
             statusCode: 404,
-            body: JSON.stringify({ "message" : 'Faculty not found' })
+            body: JSON.stringify({
+                status: 'fail',
+                message: 'Faculty not found'
+            })
         };
 
         callback(null, response);

@@ -25,7 +25,10 @@ module.exports.getStudent = (event, context, callback) => {
             
             const response = {
                 statusCode: 200,
-                body: val
+                body: {
+                    status: 'success',
+                    data: val
+                }
             };
     
             callback(null, response);
@@ -47,10 +50,16 @@ module.exports.getStudent = (event, context, callback) => {
         
                 const response = data.Item ? {
                     statusCode: 200,
-                    body: JSON.stringify(data.Item)
+                    body: JSON.stringify({
+                        status: 'success',
+                        data: data.Item
+                    })
                 }: {
                     statusCode: 404,
-                    body: JSON.stringify({ "message" : 'Student not found' })
+                    body: JSON.stringify({
+                        status: 'fail',
+                        message: 'Student not found'
+                    })
                 };
 
                 if (response.statusCode === 200) {

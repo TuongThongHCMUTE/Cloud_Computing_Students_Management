@@ -23,7 +23,11 @@ module.exports.listStudent = (event, context, callback) => {
             
             const response = {
                 statusCode: 200,
-                body: val
+                body: {
+                    status: 'sucess',
+                    results: val.length,
+                    data: val
+                }
             };
     
             callback(null, response);
@@ -43,7 +47,11 @@ module.exports.listStudent = (event, context, callback) => {
     
                 const response = {
                     statusCode: 200,
-                    body: JSON.stringify(data.Items)
+                    body: JSON.stringify({
+                        status: 'sucess',
+                        results: data.Items.length,
+                        data: data.Items
+                    })
                 };
     
                 // Store the result in redis

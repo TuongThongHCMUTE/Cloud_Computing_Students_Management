@@ -40,7 +40,10 @@ module.exports.createStudent = (event, context, callback) => {
 
         const response = {
             statusCode: 201,
-            body: JSON.stringify(data.Item)
+            body: JSON.stringify({
+                status: 'success',
+                data: params.Item
+            })
         };
 
         if (response.statusCode === 201) {

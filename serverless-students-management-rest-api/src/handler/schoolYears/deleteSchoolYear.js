@@ -24,10 +24,13 @@ module.exports.deleteSchoolYear = (event, context, callback) => {
 			return;
 		}
 
-		const response = {
-			statusCode: 200,
-			body: JSON.stringify({})
-		};
+        const response = {
+            statusCode: 200,
+            body: JSON.stringify({
+                status: 'success',
+                data: data.Item
+            })
+        };
 
 		callback(null, response);
 	});

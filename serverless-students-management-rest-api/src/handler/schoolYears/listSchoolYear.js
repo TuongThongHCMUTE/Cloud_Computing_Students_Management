@@ -23,7 +23,11 @@ module.exports.listSchoolYear = (event, context, callback) => {
 
         const response = {
             statusCode: 200,
-            body: JSON.stringify(data.Items)
+            body: JSON.stringify({
+                status: 'sucess',
+                results: data.Items.length,
+                data: data.Items
+            })
         };
 
         callback(null, response);

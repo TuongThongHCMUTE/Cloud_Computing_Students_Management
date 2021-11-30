@@ -45,7 +45,10 @@ module.exports.updateSchoolYear = (event, context, callback) => {
 
         const response = {
             statusCode: 200,
-            body: JSON.stringify(data.Item)
+            body: JSON.stringify({
+                status: 'success',
+                data: data.Item
+            })
         };
 
         callback(null, response);

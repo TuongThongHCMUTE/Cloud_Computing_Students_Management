@@ -60,7 +60,10 @@ module.exports.updateStudent = (event, context, callback) => {
 
         const response = {
             statusCode: 200,
-            body: JSON.stringify(data.Item)
+            body: JSON.stringify({
+                status: 'success',
+                data: data.Item
+            })
         };
 
         if (response.statusCode === 200) {
