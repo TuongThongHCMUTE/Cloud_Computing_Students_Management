@@ -15,7 +15,7 @@
     const body = JSON.parse(event.body);
 
     const params = {
-        TableName: 'students',
+        TableName: body.email.includes('@student.hcmute.edu.vn') ? 'students' : 'managers',
         Key: {
             'id': body.email
         }

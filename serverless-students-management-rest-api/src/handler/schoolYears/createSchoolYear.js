@@ -1,7 +1,7 @@
 /**
- * 
+ *
  * @author Group 10
- * 
+ *
  */
 'use strict'
 
@@ -18,8 +18,8 @@ module.exports.createSchoolYear = (event, context, callback) => {
     const params = {
         TableName: 'schoolYears',
         Item: {
-            // id: uuid.v1(),
-            id: data.email,
+            id: uuid.v1(),
+            // id: data.email,
             ...data,
             createdAt: datetime,
             updatedAt: datetime
