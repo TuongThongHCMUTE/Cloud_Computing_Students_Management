@@ -15,6 +15,13 @@ import LogoSection from '../LogoSection';
 import MenuCard from './MenuCard';
 import { drawerWidth } from 'store/constant';
 
+// import menuItem from 'menu-items';
+import adminMenuItems from 'menu-items/admin';
+import studentMenuItems from 'menu-items/student';
+
+// constant
+import { userRole } from 'assets/constants';
+
 // style constant
 const useStyles = makeStyles((theme) => ({
     drawer: {
@@ -55,6 +62,23 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
+    // Match Navigation
+    const matchMenuItems = () => {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+        if (currentUser) {
+            switch (currentUser.role) {
+                case userRole.admin:
+                    return adminMenuItems;
+                case userRole.student:
+                    return studentMenuItems;
+                default:
+                    return studentMenuItems;
+            }
+        }
+    }
+
+    const menuItem = matchMenuItems() 
+
     const drawer = (
         <>
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -64,13 +88,13 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
             </Box>
             <BrowserView>
                 <PerfectScrollbar component="div" className={classes.ScrollHeight}>
-                    <MenuList />
+                    <MenuList menuItem={menuItem} />
                     {/* <MenuCard /> */}
                 </PerfectScrollbar>
             </BrowserView>
             <MobileView>
                 <Box sx={{ px: 2 }}>
-                    <MenuList />
+                    <MenuList menuItem={menuItem} />
                     <MenuCard />
                 </Box>
             </MobileView>

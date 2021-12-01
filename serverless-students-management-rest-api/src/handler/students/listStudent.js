@@ -20,15 +20,13 @@ module.exports.listStudent = (event, context, callback) => {
         if (val) {
             console.log("CACHE HIT. READ ALL STUDENTS FROM REDIS");
             console.log("STUDENTS: ", val);
-            
+
             const response = {
                 statusCode: 200,
-                body: {
-                    status: 'sucess',
-                    results: val.length,
-                    data: val
-                }
+                body: val
             };
+
+            console.log("RESPONE: ", response)
     
             callback(null, response);
         }

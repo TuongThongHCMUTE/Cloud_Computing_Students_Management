@@ -10,9 +10,6 @@ import InfoCard from 'ui-component/cards/InfoCard';
 import IconInfoRecord from 'ui-component/info-record/IconInfoRecord';
 
 const PersonalBriefInfo = ({ user }) => {
-
-    console.log('USER: ', user);
-
     return (
         <InfoCard header={{ title: user.fullName, subTitle: user.studentId, image: user.avatar }}>
             <IconInfoRecord title="Email" value={user.email} icon={<MarkunreadIcon/>} />

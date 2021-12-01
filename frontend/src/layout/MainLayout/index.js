@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
@@ -13,10 +13,13 @@ import clsx from 'clsx';
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import Customization from '../Customization';
-import navigation from 'menu-items';
+import adminNavigation from 'menu-items/admin';
+import studentNavigation from 'menu-items/student';
 import { drawerWidth } from 'store/constant';
 import { SET_MENU } from 'store/actions';
+
+// constant
+import { userRole } from 'assets/constants';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
@@ -93,6 +96,23 @@ const MainLayout = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
 
+    // Match Navigation
+    const matchNavigation = () => {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+        if (currentUser) {
+            switch (currentUser.role) {
+                case userRole.admin:
+                    return adminNavigation;
+                case userRole.student:
+                    return studentNavigation;
+                default:
+                    return studentNavigation;
+            }
+        }
+    }
+
+    const navigation = matchNavigation()
+    
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -125,7 +145,7 @@ const MainLayout = () => {
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
                 <Outlet />
             </main>
-            <Customization />
+            {/* <Customization /> */}
         </div>
     );
 };
