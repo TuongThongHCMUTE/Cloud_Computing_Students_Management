@@ -19,16 +19,6 @@ module.exports.updateStudent = (event, context, callback) => {
     const data = JSON.parse(event.body);
     const studentId = event.pathParameters.id;
 
-    // if( typeof data.task !== 'string' || typeof data.done !== 'boolean') {
-    //     console.error('Value of task or done is invalid');
-    //     const response = {
-    //         statusCode: 400,
-    //         body: JSON.stringify({ "message":"Value of task or done is invalid" })
-    //     }
-
-    //     return;
-    // }
-
     const updates = Object.keys(data)
     const expressionAttributeValues = {}
     var updateExpression = 'set '
@@ -48,7 +38,6 @@ module.exports.updateStudent = (event, context, callback) => {
             ':u': datetime
         },
         UpdateExpression: updateExpression + 'updatedAt = :u'
-
     };
 
     dynamoDb.update(params, (error, data) => {
@@ -67,15 +56,6 @@ module.exports.updateStudent = (event, context, callback) => {
         };
 
         if (response.statusCode === 200) {
-            // Update student in redis
-            // console.log(`UPDATE STUDENT ${studentId} IN REDIS`);
-            // redisClient.hset("students", studentId, response.body, (err, val) => {
-            //     if(err) {
-            //         console.log("ERR: ",err);
-            //     }
-            //     console.log("VAL: ", val);
-            // });
-
             console.log(`REMOVE STUDENT ${studentId} IN REDIS`);
             redisClient.hdel("students", studentId, (err, val) => {
                 if(err) {

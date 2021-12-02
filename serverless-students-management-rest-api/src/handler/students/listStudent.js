@@ -25,9 +25,6 @@ module.exports.listStudent = (event, context, callback) => {
                 statusCode: 200,
                 body: val
             };
-
-            console.log("RESPONE: ", response)
-    
             callback(null, response);
         }
         // Otherwise, exec the query and store result into redis  
@@ -68,6 +65,4 @@ module.exports.listStudent = (event, context, callback) => {
             });
         }
     });
-
-
 }

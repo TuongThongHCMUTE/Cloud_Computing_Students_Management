@@ -8,12 +8,18 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.deleteManager = (event, context, callback) => {
+const redis = require('redis');
+const redisUrl = 'redis://3.0.19.255:7001';
+const redisClient = redis.createClient(redisUrl);
 
+module.exports.deleteManager = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+
+    const managerId = event.pathParameters.id;
     const params = {
         TableName: 'managers',
         Key: {
-            id: event.pathParameters.id
+            id: managerId
         }
     };
 
@@ -31,6 +37,24 @@ module.exports.deleteManager = (event, context, callback) => {
                 data: data.Item
             })
         };
+
+        if (response.statusCode === 200) {
+            console.log(`REMOVE MANAGER ${managerId} IN REDIS`);
+            redisClient.hdel("managers", managerId, (err, val) => {
+                if(err) {
+                    console.log("ERR: ",err);
+                }
+                console.log("VAL: ", val);
+            })
+
+            console.log("REMOVE LIST MANAGERS FROM REDIS");
+            redisClient.hdel("managers", "all", (err, val) => {
+                if(err) {
+                    console.log("ERR: ",err);
+                }
+                console.log("VAL: ", val);
+            })             
+        }
 
         callback(null, response);
     });

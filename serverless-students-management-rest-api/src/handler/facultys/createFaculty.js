@@ -9,16 +9,21 @@ const AWS = require('aws-sdk');
 const uuid = require('uuid');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const redis = require('redis');
+const redisUrl = 'redis://3.0.19.255:7001';
+const redisClient = redis.createClient(redisUrl);
 
 module.exports.createFaculty = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop = false;
 
     const datetime = new Date().toISOString();
     const data = JSON.parse(event.body);
+    const facultyId =  uuid.v1();
 
     const params = {
         TableName: 'facultys',
         Item: {
-            id: uuid.v1(),
+            id: facultyId,
             // id: data.email,
             ...data,
             createdAt: datetime,
@@ -40,6 +45,24 @@ module.exports.createFaculty = (event, context, callback) => {
                 data: params.Item
             })
         };
+
+        if (response.statusCode === 201) {
+            console.log("REMOVE LIST FACULTIES FROM REDIS");
+            redisClient.hdel("faculties", "all", (err, val) => {
+                if(err) {
+                    console.log("ERR: ",err);
+                }
+                console.log("VAL: ", val);
+            })  
+            
+            console.log(`WRITE FACULTY ${facultyId} INTO REDIS`);
+            redisClient.hset("faculties", facultyId, JSON.stringify(params.Item),(err, val) => {
+                if(err) {
+                    console.log("ERR: ",err);
+                }
+                console.log("VAL: ", val);
+            })             
+        }
 
         callback(null, response);
     });

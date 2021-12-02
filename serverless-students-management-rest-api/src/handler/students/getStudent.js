@@ -17,7 +17,7 @@ module.exports.getStudent = (event, context, callback) => {
 
     const studentId = event.pathParameters.id;
 
-    // Check if we have value for list students in redis
+    // Check if we have value for student in redis
     redisClient.hget("students", studentId, (err, val) => {
         if (val) {
             console.log(`CACHE HIT. READ STUDENT ${studentId} FROM REDIS`);

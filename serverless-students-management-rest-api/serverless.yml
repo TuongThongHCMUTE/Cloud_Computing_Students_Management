@@ -114,6 +114,7 @@ functions:
           path: students
           method: post
           cors: true
+    timeout: 20
   listStudent:
     handler: src/handler/students/listStudent.listStudent
     events:
@@ -154,6 +155,7 @@ functions:
           path: managers
           method: post
           cors: true
+    timeout: 20
   listManager:
     handler: src/handler/managers/listManager.listManager
     events:
@@ -161,6 +163,7 @@ functions:
           path: managers
           method: get
           cors: true
+    timeout: 20
   getManager:
     handler: src/handler/managers/getManager.getManager
     events:
@@ -168,6 +171,7 @@ functions:
           path: managers/{id}
           method: get
           cors: true
+    timeout: 20
   updateManager:
     handler: src/handler/managers/updateManager.updateManager
     events:
@@ -175,6 +179,7 @@ functions:
           path: managers/{id}
           method: put
           cors: true
+    timeout: 20
   deleteManager:
     handler: src/handler/managers/deleteManager.deleteManager
     events:
@@ -182,6 +187,7 @@ functions:
           path: managers/{id}
           method: delete
           cors: true
+    timeout: 20
 
   createFaculty:
     handler: src/handler/facultys/createFaculty.createFaculty
@@ -190,6 +196,7 @@ functions:
           path: facultys
           method: post
           cors: true
+    timeout: 20
   listFaculty:
     handler: src/handler/facultys/listFaculty.listFaculty
     events:
@@ -197,6 +204,7 @@ functions:
           path: facultys
           method: get
           cors: true
+    timeout: 20
   getFaculty:
     handler: src/handler/facultys/getFaculty.getFaculty
     events:
@@ -204,6 +212,7 @@ functions:
           path: facultys/{id}
           method: get
           cors: true
+    timeout: 20
   updateFaculty:
     handler: src/handler/facultys/updateFaculty.updateFaculty
     events:
@@ -211,6 +220,7 @@ functions:
           path: facultys/{id}
           method: put
           cors: true
+    timeout: 20
   deleteFaculty:
     handler: src/handler/facultys/deleteFaculty.deleteFaculty
     events:
@@ -218,6 +228,7 @@ functions:
           path: facultys/{id}
           method: delete
           cors: true
+    timeout: 20
 
   createSchoolYear:
     handler: src/handler/schoolYears/createSchoolYear.createSchoolYear

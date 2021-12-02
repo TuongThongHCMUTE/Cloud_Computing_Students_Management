@@ -25,7 +25,6 @@ module.exports.listManager = (event, context, callback) => {
                 statusCode: 200,
                 body: val
             };
-    
             callback(null, response);
         }
         // Otherwise, exec the query and store result into redis  

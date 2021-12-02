@@ -6,13 +6,18 @@
 'use strict'
 
 const AWS = require('aws-sdk');
-
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
+const redis = require('redis');
+const redisUrl = 'redis://3.0.19.255:7001';
+const redisClient = redis.createClient(redisUrl);
+
 module.exports.updateManager = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop = false;
 
     const datetime = new Date().toISOString();
     const data = JSON.parse(event.body);
+    const managerId = event.pathParameters.id;
 
     const updates = Object.keys(data)
     const expressionAttributeValues = {}
@@ -50,6 +55,24 @@ module.exports.updateManager = (event, context, callback) => {
                 data: data.Item
             })
         };
+
+        if (response.statusCode === 200) {
+            console.log(`REMOVE MANAGER ${managerId} IN REDIS`);
+            redisClient.hdel("managers", managerId, (err, val) => {
+                if(err) {
+                    console.log("ERR: ",err);
+                }
+                console.log("VAL: ", val);
+            })
+
+            console.log("REMOVE LIST MANAGERS FROM REDIS");
+            redisClient.hdel("managers", "all", (err, val) => {
+                if(err) {
+                    console.log("ERR: ",err);
+                }
+                console.log("VAL: ", val);
+            })             
+        }
 
         callback(null, response);
     });
