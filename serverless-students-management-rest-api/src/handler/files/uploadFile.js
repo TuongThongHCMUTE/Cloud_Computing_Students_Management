@@ -5,45 +5,54 @@
  */
 'use strict'
 
-require('dotenv').config()
-const fs = require('fs')
-const uuid = require('uuid')
+const uuid = require('uuid');
 const S3 = require('aws-sdk/clients/s3');
 
-const bucketName = process.env.AWS_BUCKET_NAME
-const region = process.env.AWS_BUCKET_REGION
-const accessKeyId = process.env.AWS_ACCESS_KEY
-const secretAccessKey = process.env.AWS_SECRET_KEY
+const BUCKET_NAME = process.env.AWS_BUCKET_NAME
 
-const s3 = new S3({
-    region,
-    accessKeyId,
-    secretAccessKey
-})
- 
-module.exports.uploadFile = (event, context, callback) => {
-    const file = event.body.file
+const s3 = new S3()
 
-    console.log(file)
+module.exports.uploadFile = async (event, context, callback) => {
+    console.log(event);
 
-    const fileStream = fs.createReadStream(file.path)
+    const response = {
+        isBase64Encoded: false,
+        statusCode: 200,
+        body: JSON.stringify({
+            message: ''
+        })
+    }; 
 
-    const uploadParams = {
-        Bucket: bucketName,
-        Body: fileStream,
-        Key: uuid.v1() + '_' + file.filename
+    try {
+        const parsedBody = JSON.parse(event.body);
+        const base64File = parsedBody.file;
+        const decodedFile = Buffer.from(base64File.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+        
+        const imageKey = `${uuid.v1()}_${parsedBody.fileName}`;
+
+        console.log(imageKey, BUCKET_NAME)
+
+        const params = {
+            Bucket: BUCKET_NAME,
+            Key: imageKey,
+            Body: decodedFile
+        };
+
+        const uploadResult = await s3.upload(params).promise();
+
+        response.body = JSON.stringify({
+            status: 'success',
+            message: 'Upload file thành công',
+            imageKey: uploadResult.Key
+        });
+    } catch (e) {
+        console.error(e);
+        response.body = JSON.stringify({
+            status: 'fail',
+            message: 'Lỗi upload file',
+            errorMessage: e });
+        response.statusCode = 500;
     }
 
-    console.log(uploadParams)
-
-    const result = s3.upload(uploadParams).promise()
-
-    res.status(200).json({
-        status: 'success',
-        message: 'Upload file thành công',
-        data: {
-            displayName: file.originalname,
-            imageKey: result.Key
-        }
-    })
+    callback(null, response)
 }

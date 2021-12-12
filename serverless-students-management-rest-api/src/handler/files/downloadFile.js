@@ -10,32 +10,49 @@ const fs = require('fs')
 const uuid = require('uuid')
 const S3 = require('aws-sdk/clients/s3');
 
-const bucketName = process.env.AWS_BUCKET_NAME
-const region = process.env.AWS_BUCKET_REGION
-const accessKeyId = process.env.AWS_ACCESS_KEY
-const secretAccessKey = process.env.AWS_SECRET_KEY
+const BUCKET_NAME = process.env.AWS_BUCKET_NAME
 
-const s3 = new S3({
-    region,
-    accessKeyId,
-    secretAccessKey
-})
+const s3 = new S3()
   
-module.exports.downloadFile = (event, context, callback) => {
-    const fileKey = event.pathParameters.id
+module.exports.downloadFile = async (event, context, callback) => {
+    const response = {
+        isBase64Encoded: false,
+        statusCode: 200,
+        body: JSON.stringify({
+            message: 'Load file thành công'
+        }),
+    }; 
 
-    const downloadParams = {
-        Key: fileKey,
-        Bucket: bucketName
+    try {
+        const {fileKey} = event.queryStringParameters
+    
+        const downloadParams = {
+            Key: fileKey,
+            Bucket: BUCKET_NAME
+        }
+
+        console.log(downloadParams)
+
+        const signedUrlExpireSeconds = 60 * 60;
+        const url = await s3.getSignedUrl('getObject', {
+            Bucket: downloadParams.Bucket,
+            Key: downloadParams.Key,
+            Expires: signedUrlExpireSeconds
+        });
+
+        response.body = JSON.stringify({
+            status: 'success',
+            message: 'Load file thành công',
+            url
+        });
+    } catch (e) {
+        console.error(e);
+        response.body = JSON.stringify({
+            message: 'Lỗi load file',
+            errorMessage: e
+        });
+        response.statusCode = 500;
     }
     
-    if (fileKey) {
-        const readStream = s3.getObject(downloadParams).createReadStream()
-        readStream.pipe(res)
-    } else {
-        res.status(403).json({
-            status: 'fail',
-            message: 'File không tồn tại',
-        })
-    }
+    callback(null, response)
  }

@@ -5,41 +5,43 @@
  */
  'use strict'
 
-require('dotenv').config()
-const fs = require('fs')
-const uuid = require('uuid')
 const S3 = require('aws-sdk/clients/s3');
 
-const bucketName = process.env.AWS_BUCKET_NAME
-const region = process.env.AWS_BUCKET_REGION
-const accessKeyId = process.env.AWS_ACCESS_KEY
-const secretAccessKey = process.env.AWS_SECRET_KEY
+const BUCKET_NAME = process.env.AWS_BUCKET_NAME
 
-const s3 = new S3({
-    region,
-    accessKeyId,
-    secretAccessKey
-})
+const s3 = new S3()
   
-module.exports.deleteFile = (event, context, callback) => {
-    const fileKey = event.pathParameters.id
+module.exports.deleteFile = async (event, context, callback) => {
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify({
+            message: 'Xóa file thành công'
+        })
+    };
 
-    const deteteParams = {
-        Key: fileKey,
-        Bucket: bucketName
-    }
+    try {
+        const {fileKey} = event.queryStringParameters
     
-    if (fileKey) {
-        const response = s3.deleteObject(deteteParams).promise()
+        const deteteParams = {
+            Key: fileKey,
+            Bucket: BUCKET_NAME
+        }
 
-        res.status(403).json({
+        const result = await s3.deleteObject(deteteParams).promise()
+
+        response.body = JSON.stringify({
             status: 'success',
             message: 'Xóa file thành công',
         })
-    } else {
-        res.status(403).json({
-            status: 'fail',
-            message: 'File không tồn tại',
-        })
+
+    } catch (e) {
+        console.error(e);
+        response.body = JSON.stringify({
+            message: 'Lỗi load file',
+            errorMessage: e
+        });
+        response.statusCode = 500;
     }
+
+    callback(null, response)
  }
