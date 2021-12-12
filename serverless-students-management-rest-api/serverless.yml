@@ -83,6 +83,22 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: 'schoolYears'
+    FormsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'forms'
 
 functions:
   registerStudent:
@@ -263,5 +279,63 @@ functions:
     events:
       - http:
           path: schoolYears/{id}
+          method: delete
+          cors: true
+
+  createForm:
+    handler: src/handler/forms/createForm.createForm
+    events:
+      - http:
+          path: forms
+          method: post
+          cors: true
+  listForm:
+    handler: src/handler/forms/listForm.listForm
+    events:
+      - http:
+          path: forms
+          method: get
+          cors: true
+  getForm:
+    handler: src/handler/forms/getForm.getForm
+    events:
+      - http:
+          path: forms/{id}
+          method: get
+          cors: true
+  updateForm:
+    handler: src/handler/forms/updateForm.updateForm
+    events:
+      - http:
+          path: forms/{id}
+          method: put
+          cors: true
+  deleteForm:
+    handler: src/handler/forms/deleteForm.deleteForm
+    events:
+      - http:
+          path: forms/{id}
+          method: delete
+          cors: true
+
+  uploadFile:
+    handler: src/handler/files/uploadFile.uploadFile
+    events:
+      - http:
+          path: files
+          method: post
+          cors: true
+  downloadFile:
+    handler: src/handler/files/downloadFile.downloadFile
+    events:
+      - http:
+          path: files/{id}
+          method: get
+          cors: true
+  deleteFile:
+    handler: src/handler/files/deleteFile.deleteFile
+    events:
+      - http:
+          path: files/{id}
           method: delete
           cors: true
