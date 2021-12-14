@@ -15,13 +15,22 @@ import {
   Paper,
   IconButton
 } from '@mui/material';
+
+// Icons
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+
 import { visuallyHidden } from '@mui/utils';
 
-function createData({ id, fName, email, phoneNumber, isDisplayed, ...rest }) {
-  const status = isDisplayed ? 'Hiển thị' : 'Ẩn';
-  return { id, fName, email, phoneNumber, status };
+function createData(manager) {
+  const id = manager.id
+  const fullName = manager.fullName;
+  const status = manager.isActived ? 'Đã kích hoạt' : 'Bị khóa';
+  const faculty = manager.faculty ? manager.faculty : '';
+  const email = manager.email;
+  const phoneNumber = manager.phoneNumber;
+  const position = manager.uPosition;
+  return { id, fullName, faculty, position, email, phoneNumber, status };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -55,10 +64,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'fName', label: 'Tên đơn vị', minWidth: 180 },
+  { id: 'fullName', label: 'Họ và tên', minWidth: 180 },
+  { id: 'faculty', label: 'Đơn vị', minWidth: 180 },
+  { id: 'position', label: 'Chức vụ', minWidth: 120 },
   { id: 'email', label: 'Email', minWidth: 180 },
-  { id: 'phoneNumber', label: 'Số điện thoại', minWidth: 80 },
-  { id: 'status', label: 'Trạng thái', minWidth: 50 }
+  { id: 'phoneNumber', label: 'Số điện thoại', minWidth: 100 },
+  { id: 'status', label: 'Trạng thái', minWidth: 100 }
 ];
 
 function EnhancedTableHead(props) {
@@ -90,7 +101,9 @@ function EnhancedTableHead(props) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell padding="checkbox" />
+        <TableCell padding="checkbox">
+          Action
+        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -104,18 +117,18 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function EnhancedTable(props) {
-    const { data, triggerDeleteFaculties, triggerOpenModal } = props;
+  const { data, triggerDeleteManagers, triggerOpenModal } = props;
 
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('fName');
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('sId');
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -126,7 +139,7 @@ export default function EnhancedTable(props) {
     setPage(0);
   };
 
-  const rows = data.map(student => createData(student))
+  const rows = data.map(manager => createData(manager))
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -185,7 +198,7 @@ export default function EnhancedTable(props) {
                         <IconButton 
                           aria-label="delete" 
                           style={{ margin: "0 4px"}} 
-                          onClick={() => triggerDeleteFaculties(row.id)}
+                          onClick={() => triggerDeleteManagers(row.id)}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -212,7 +225,7 @@ export default function EnhancedTable(props) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 50, 100]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

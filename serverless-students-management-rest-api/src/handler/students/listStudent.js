@@ -58,7 +58,7 @@ module.exports.listStudent = (event, context, callback) => {
                     console.log("VAL: ", val);
                 });
     
-                const timestamp = 300;
+                const timestamp = 1800;
                 redisClient.expire("students", timestamp)
 
                 callback(null, response);

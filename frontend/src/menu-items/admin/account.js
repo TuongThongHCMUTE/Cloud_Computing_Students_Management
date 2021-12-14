@@ -41,20 +41,20 @@ const info = {
         },
         {
             id: 'student-association',
-            title: 'Hội sinh viên trường',
+            title: 'Hội sinh viên',
             type: 'item',
             url: '/admin/student-association',
             icon: icons.ApartmentIcon,
             breadcrumbs: false
         },
-        {
-            id: 'faculty-student-association',
-            title: 'Liên chi hội',
-            type: 'item',
-            url: '/admin/faculty-student-association',
-            icon: icons.ManageAccountsIcon,
-            breadcrumbs: false
-        },
+        // {
+        //     id: 'faculty-student-association',
+        //     title: 'Liên chi hội',
+        //     type: 'item',
+        //     url: '/admin/faculty-student-association',
+        //     icon: icons.ManageAccountsIcon,
+        //     breadcrumbs: false
+        // },
         {
             id: 'student',
             title: 'Sinh viên',

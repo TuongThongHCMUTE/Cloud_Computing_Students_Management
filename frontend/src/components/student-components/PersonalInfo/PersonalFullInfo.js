@@ -23,7 +23,7 @@ const PersonalFullInfo = ({user}) => {
                 <ThreeColInfoRecord title="Khoa" value={user.faculty} />
                 <ThreeColInfoRecord title="Chuyên ngành" value={user.major} />
                 <ThreeColInfoRecord title="Lớp" value={user.studentClass} />
-                <ThreeColInfoRecord title="Chức vụ" value={user.studentPosition} />
+                <ThreeColInfoRecord title="Chức vụ" value={user.uPosition} />
             </InfoCard>
         </>
     );

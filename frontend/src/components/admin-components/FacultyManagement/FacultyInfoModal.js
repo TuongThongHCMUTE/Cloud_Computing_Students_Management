@@ -15,13 +15,14 @@ import {
     MenuItem,
     Select
 } from '@mui/material';
-
-// icons
+import { useTheme } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useTheme } from '@mui/material/styles';
+// project's component import
 import InfoCard from 'ui-component/cards/InfoCard';
+
+// apis
 import { createFaculty, updateFaculty } from 'apis/faculties';
 
 const style = {
@@ -35,11 +36,25 @@ const style = {
   boxShadow: 24,
 };
 
-const types = [{ name: 'Chưa phân loại', value: 'undefined'}, { name: 'Hội sinh viên', value: 'HSV'}];
-const statuses = [{ name: 'Ẩn', value: false}, { name: 'Hiển thị', value: true}]
+const types = [
+    { name: 'Chưa phân loại', value: 'undefined'}, 
+    { name: 'Hội sinh viên', value: 'HSV'}
+];
+const statuses = [
+    { name: 'Ẩn', value: false}, 
+    { name: 'Hiển thị', value: true}
+]
 
 export default function TransitionsModal(props) {
-    const { faculty, isOpen, isUpdate, triggerUpdateFaculties, triggerCloseModal } = props
+    const { 
+        faculty, 
+        isOpen, 
+        isUpdate, 
+        triggerUpdateFaculties, 
+        triggerCloseModal 
+    } = props
+    
+    const theme = useTheme();
 
     const [open, setOpen] = useState(isOpen);
     const [alert, setAlert] = useState(null);
@@ -49,7 +64,6 @@ export default function TransitionsModal(props) {
         setFaculty(faculty)
     }, [faculty])
 
-    const theme = useTheme();
   
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
@@ -65,25 +79,36 @@ export default function TransitionsModal(props) {
 const handleSubmit = async () => {
     // Call API
     try {
-        const res = isUpdate ? await updateFaculty(facultyState) : await createFaculty(facultyState)
+        const res = isUpdate 
+        ? await updateFaculty(facultyState) 
+        : await createFaculty(facultyState)
 
         if (res.data.status === 'success') {
-            setAlert( { type: 'success', content: 'Lưu thông tin thành công!' });
-            triggerUpdateFaculties(facultyState);
+            triggerUpdateFaculties();
             handleClose()
             
+            setAlert({ 
+                type: 'success', 
+                content: 'Lưu thông tin thành công!' 
+            });   
             setTimeout(() => {
                 setAlert(null);
             }, 2000)
         } else {
-            setAlert( { type: 'error', content: 'Đã xảy ra lỗi, vui lòng thử lại!' });
+            setAlert({ 
+                type: 'error', 
+                content: 'Đã xảy ra lỗi, vui lòng thử lại!' 
+            });
             setTimeout(() => {
                 setAlert(null);
             }, 2000)
         }
 
     } catch (err) {
-        setAlert( { type: 'error', content: err.response.data.message });
+        setAlert({ 
+            type: 'error', 
+            content: err.response.data.message 
+        });
         setTimeout(() => {
             setAlert(null);
         }, 2000)
@@ -134,7 +159,10 @@ const handleSubmit = async () => {
                 >
                     <CloseIcon />
                 </IconButton>
-                <Grid container xs={12} sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                <Grid 
+                    container xs={12} 
+                    sx={{ display: 'flex', flexWrap: 'wrap' }}
+                >
                     {/* Name Field */}
                     <Grid key="name" item xs={12} sx={{p: 1}} >
                         <TextField
@@ -178,7 +206,11 @@ const handleSubmit = async () => {
                             <Select
                                 labelId="type-group"
                                 id="input-typeGroup"
-                                value={facultyState ? facultyState.fType || types[0].value : types[0].value}
+                                value={
+                                    facultyState 
+                                    ? facultyState.fType || types[0].value 
+                                    : types[0].value
+                                }
                                 label="Phân loại"
                                 onChange={handleChange('fType')}
                             >
@@ -194,7 +226,11 @@ const handleSubmit = async () => {
                             <Select
                                 labelId="status-group"
                                 id="input-statusGroup"
-                                value={facultyState ? facultyState.isDisplayed || statuses[0].value : statuses[0].value}
+                                value={
+                                    facultyState 
+                                    ? facultyState.isDisplayed || statuses[0].value 
+                                    : statuses[0].value
+                                }
                                 label="Phân loại"
                                 onChange={handleChange('isDisplayed')}
                             >

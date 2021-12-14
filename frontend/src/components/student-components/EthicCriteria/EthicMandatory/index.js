@@ -11,15 +11,14 @@ import CriteriaForm from 'components/student-components/CriteriaForm';
 // merits data imports
 import merits from 'assets/dummy-data/merits'
 
-// ===========================|| ETHNIC MERIT - MANDATORY CRITERIAS  ||=========================== //
+// Set current path
+const pages = ["Hồ sơ", "Đạo đức tốt", "Tiêu chuẩn bắt buộc"];
 
+// ===========================|| ETHNIC MERIT - MANDATORY CRITERIAS  ||=========================== //
 const EthicMandatory = () => {
     // Read list criterias from merits data
     const ethnic = merits.find(merit => merit.id === 'ethnic');
     const ethnicMadatory = ethnic.categories.find(category => category.id === 'mandatory');
-    
-    // Set current path
-    const pages = ["Hồ sơ", "Đạo đức tốt", "Tiêu chuẩn bắt buộc"];
 
     return (
         <Grid container spacing={3}>

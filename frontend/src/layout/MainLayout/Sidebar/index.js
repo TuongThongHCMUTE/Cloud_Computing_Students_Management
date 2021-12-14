@@ -66,7 +66,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
     const matchMenuItems = () => {
         const currentUser = JSON.parse(localStorage.getItem("currentUser"))
         if (currentUser) {
-            switch (currentUser.role) {
+            switch (currentUser.uRole) {
                 case userRole.admin:
                     return adminMenuItems;
                 case userRole.student:

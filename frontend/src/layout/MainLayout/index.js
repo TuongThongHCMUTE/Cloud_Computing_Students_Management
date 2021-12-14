@@ -100,7 +100,7 @@ const MainLayout = () => {
     const matchNavigation = () => {
         const currentUser = JSON.parse(localStorage.getItem("currentUser"))
         if (currentUser) {
-            switch (currentUser.role) {
+            switch (currentUser.uRole) {
                 case userRole.admin:
                     return adminNavigation;
                 case userRole.student:

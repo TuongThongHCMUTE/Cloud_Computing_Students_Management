@@ -24,17 +24,17 @@ import {
     Stack,
     Typography
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // icons
 import CachedIcon from '@mui/icons-material/Cached';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useTheme } from '@mui/material/styles';
 import InfoCard from 'ui-component/cards/InfoCard';
 
 // APIs
-import { createStudent, updateStudent } from 'apis/students';
+import { createManager, updateManager } from 'apis/managers';
 
 const style = {
   position: 'absolute',
@@ -50,52 +50,52 @@ const style = {
 };
 
 export default function TransitionsModal(props) {
-    const { student, faculties, isOpen, isUpdate, triggerUpdateStudents, triggerCloseModal } = props;
+    const { manager, faculties, isOpen, isUpdate, triggerUpdateManagers, triggerCloseModal } = props;
 
     const ethnicGroups = ['Dân tộc', 'Kinh', 'Hoa', 'Khmer'];
 
     const [open, setOpen] = useState(isOpen);
     const [alert, setAlert] = useState(null);
-    const [studentState, setStudent] = useState();
+    const [managerState, setManager] = useState();
 
     useEffect(() => {
-        if (student) {
-            setStudent(student)
+        if (manager) {
+            setManager(manager)
         }
-    }, [student])
+    }, [manager])
 
     const theme = useTheme();
   
     const handleOpen = () => setOpen(true);
     const handleClose = (resetState = true) => {
         if(resetState) {
-            setStudent();
+            setManager();
         }
         setOpen(false);
         triggerCloseModal()
     }
 
     const handleChange = (prop) => (event) => {
-        setStudent({...studentState, [prop]: event.target.value });
+        setManager({...managerState, [prop]: event.target.value });
     };
 
     const handleSubmit = async (resetPassword=false) => {
-        if(!studentState) {
+        if(!managerState) {
             return;
         }
 
         // Call API
         try {
-            const fullName = studentState.lastName + ' ' + studentState.firstName;
+            const fullName = managerState.lastName + ' ' + managerState.firstName;
             const postData = resetPassword 
-            ? {...studentState, password: '12345678'} 
-            : {...studentState, fullName: fullName}
+            ? {...managerState, password: '12345678'} 
+            : {...managerState, fullName: fullName}
 
-            const res = isUpdate ? await updateStudent(postData) : await createStudent(postData)
+            const res = isUpdate ? await updateManager(postData) : await createManager(postData)
 
             if (res.data.status === 'success') {
                 setAlert( { type: 'success', content: 'Lưu thông tin thành công!' });
-                triggerUpdateStudents(postData);
+                triggerUpdateManagers(postData);
                 handleClose()
                 
                 setTimeout(() => {
@@ -125,7 +125,7 @@ export default function TransitionsModal(props) {
                     <a href={alert.destination} style={{ color: 'var(--color-dark-gray)', fontSize: '11'}} >{ alert.content }</a>
                 </Alert> 
             }
-            <Tooltip title="Thêm sinh viên">
+            <Tooltip title="Thêm quản lý">
                 <Fab
                     component="div"
                     onClick={handleOpen}
@@ -169,8 +169,8 @@ export default function TransitionsModal(props) {
                             <Typography>Khóa</Typography>
                             <Switch
                                 label="Kích hoạt"
-                                checked={studentState ? studentState.isActived : false}
-                                onChange={(event) => {setStudent({ ...studentState, isActived: event.target.checked })}}
+                                checked={managerState ? managerState.isActived : false}
+                                onChange={(event) => {setManager({ ...managerState, isActived: event.target.checked })}}
                             />
                             <Typography>Kích hoạt</Typography>
                         </Stack>
@@ -192,7 +192,7 @@ export default function TransitionsModal(props) {
                     {/* Last Name Field */}
                     <Grid item lg={6} xs={12} sx={{p: 1}} >
                         <TextField
-                            value={studentState ? studentState.lastName : ''}
+                            value={managerState ? managerState.lastName : ''}
                             onChange={handleChange('lastName')}
                             required
                             label="Họ và tên lót"
@@ -204,7 +204,7 @@ export default function TransitionsModal(props) {
                     {/* First Name Field */}
                     <Grid item lg={6} xs={12} sx={{p: 1}} >
                         <TextField
-                            value={studentState ? studentState.firstName : ''}
+                            value={managerState ? managerState.firstName : ''}
                             onChange={handleChange('firstName')}
                             required
                             label="Tên"
@@ -216,7 +216,7 @@ export default function TransitionsModal(props) {
                     {/* Student ID Field - Disabled */}
                     <Grid item lg={6} xs={12} sx={{p: 1}} >
                         <TextField
-                            value={studentState ? studentState.studentId : ''}
+                            value={managerState ? managerState.studentId : ''}
                             onChange={handleChange('studentId')}
                             label="Mã số sinh viên"
                             id="input-studentId"
@@ -227,7 +227,7 @@ export default function TransitionsModal(props) {
                     {/* Email Field - Disabled */}
                     <Grid item lg={6} xs={12} sx={{p: 1}} >
                         <TextField
-                            value={studentState ? studentState.email : ''}
+                            value={managerState ? managerState.email : ''}
                             onChange={handleChange('email')}
                             required
                             disabled={isUpdate}
@@ -240,7 +240,7 @@ export default function TransitionsModal(props) {
                     {/* Phone Number Field */}
                     <Grid item lg={6} xs={12} sx={{p: 1}} >
                         <TextField
-                            value={studentState ? studentState.phoneNumber : ''}
+                            value={managerState ? managerState.phoneNumber : ''}
                             onChange={handleChange('phoneNumber')}
                             label="Số điện thoại"
                             id="input-phone"
@@ -251,7 +251,7 @@ export default function TransitionsModal(props) {
                     {/* Date of Birth Field - Date Picker */}
                     <Grid item lg={6} xs={12} sx={{p: 1}} >
                         <TextField
-                            value={studentState ? moment(studentState.dateOfBirth).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')}
+                            value={managerState ? moment(managerState.dateOfBirth).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')}
                             onChange={handleChange('dateOfBirth')}
                             label="Ngày sinh"
                             id="input-dob"
@@ -270,7 +270,7 @@ export default function TransitionsModal(props) {
                             <Select
                                 labelId="ethnic-group"
                                 id="input-ethnicGroup"
-                                value={studentState ? studentState.ethnicGroup : ethnicGroups[0]}
+                                value={managerState ? managerState.ethnicGroup : ethnicGroups[0]}
                                 label="Dân tộc"
                                 onChange={handleChange('ethnicGroup')}
                             >
@@ -285,9 +285,9 @@ export default function TransitionsModal(props) {
                         <FormControl component="fieldset" sx={{m: 1}}>
                             <FormLabel component="legend">Giới tính</FormLabel>
                             <RadioGroup row aria-label="gender" name="row-radio-gender-group" onChange={handleChange("gender")}>
-                                <FormControlLabel value="Nam" checked={studentState ? studentState.gender === 'Nam' : false} control={<Radio />} label="Nam" />
-                                <FormControlLabel value="Nữ" checked={studentState ? studentState.gender === 'Nữ' : false} control={<Radio />} label="Nữ" />
-                                <FormControlLabel value="Khác" checked={studentState ? studentState.gender === 'Khác' : false} control={<Radio />} label="Khác" />
+                                <FormControlLabel value="Nam" checked={managerState ? managerState.gender === 'Nam' : false} control={<Radio />} label="Nam" />
+                                <FormControlLabel value="Nữ" checked={managerState ? managerState.gender === 'Nữ' : false} control={<Radio />} label="Nữ" />
+                                <FormControlLabel value="Khác" checked={managerState ? managerState.gender === 'Khác' : false} control={<Radio />} label="Khác" />
                             </RadioGroup>
                         </FormControl>
                     </Grid>
@@ -299,7 +299,7 @@ export default function TransitionsModal(props) {
                             <InputLabel htmlFor="input-address">Địa chỉ</InputLabel>
                             <OutlinedInput
                                 id="input-address"
-                                value={studentState ? studentState.address : ''}
+                                value={managerState ? managerState.address : ''}
                                 onChange={handleChange('address')}
                                 label="Địa chỉ"
                             />
@@ -313,7 +313,7 @@ export default function TransitionsModal(props) {
                             <Select
                                 labelId="faculty-group"
                                 id="input-faculty"
-                                value={studentState ? studentState.faculty : faculties.find(f => f.fName === 'Khoa')}
+                                value={managerState ? managerState.faculty : faculties.find(f => f.fName === 'Khoa')}
                                 label="Khoa"
                                 onChange={handleChange('faculty')}
                             >
@@ -327,7 +327,7 @@ export default function TransitionsModal(props) {
                         <TextField
                                 label="Chuyên ngành"
                                 id="input-major"
-                                value={studentState? studentState.major : ''}
+                                value={managerState? managerState.major : ''}
                                 onChange={handleChange('major')}
                                 sx={{ width: '100%' }}
                         />
@@ -338,7 +338,7 @@ export default function TransitionsModal(props) {
                         <TextField
                                 label="Lớp"
                                 id="input-class"
-                                value={studentState ? studentState.studentClass : ''}
+                                value={managerState ? managerState.studentClass : ''}
                                 onChange={handleChange('studentClass')}
                                 sx={{ width: '100%' }}
                         />
@@ -347,11 +347,11 @@ export default function TransitionsModal(props) {
                     {/* Position Field */}
                     <Grid item lg={6} xs={12} sx={{p: 1}} >
                         <TextField
-                                label="Chức vụ"
-                                id="input-position"
-                                value={studentState? studentState.uPosition : ''}
-                                onChange={handleChange('uPosition')}
-                                sx={{ width: '100%' }}
+                            label="Chức vụ"
+                            id="input-position"
+                            value={managerState? managerState.uPosition : ''}
+                            onChange={handleChange('uPosition')}
+                            sx={{ width: '100%' }}
                         />
                     </Grid>
 
@@ -360,7 +360,6 @@ export default function TransitionsModal(props) {
                             <Button variant="text" onClick={handleClose}>Hủy</Button>
                             <Button variant="contained" sx={{ ml:2 }} onClick={() => handleSubmit(false)}>Lưu</Button>
                         </Grid>
-
                     </Grid>
                 </InfoCard>
         </Modal>

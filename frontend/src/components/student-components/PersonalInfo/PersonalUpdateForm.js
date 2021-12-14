@@ -1,61 +1,88 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AppContext from 'store/AppContext';
 
 // Third-party
 import moment from 'moment';
 
 // material-ui components imports
-import { Grid } from '@material-ui/core';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
+import {
+    Grid,
+    OutlinedInput,
+    InputLabel,
+    FormControl,
+    TextField,
+    MenuItem,
+    Select,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormLabel,
+    Button,
+    Alert
+} from '@mui/material';
 
 // project components imports
 import InfoCard from 'ui-component/cards/InfoCard';
 
 // APIs
 import { updateStudent } from 'apis/students';
+import { updateManager} from 'apis/managers';
+import { getAllFaculties } from 'apis/faculties';
 
 const PersonalUpdateForm = (props) => {
     const { state, dispatch } = useContext(AppContext);
 
     const ethnicGroups = ['Dân tộc', 'Kinh', 'Hoa', 'Khmer'];
-    const faculties = ["Khoa", "Đào tạo chất lượng cao", "Cơ khí chế tạo máy", "Cơ khí Động lực", "Công nghệ thông tin" ]
-
+    const [faculties, setFaculties] = useState([]); 
     const [user, setUser] = useState(state.userInfo);
     const [alert, setAlert] = useState(null);
+
+    useEffect(() => {
+        const listFaculties =  async () => {
+            try {    
+                const response = await getAllFaculties();
+                const faculties = response.data.data;
+        
+                if(faculties.length > 0) {         
+                    setFaculties(faculties.filter(f => f.isDisplayed))
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        listFaculties();
+    }, []);
     
     const handleChange = (prop) => (event) => {
         setUser({...user, [prop]: event.target.value });
     };
 
     const handleSubmit = async () => {
+        if(!user) {
+            return;
+        }
+
+        const fullName = user.lastName + ' ' + user.firstName;
+        const postData = {...user, fullName}
+
         // Call API
         try {
-            const res = await updateStudent(user);
+            const res = user.uRole === 'SV' ? await updateStudent(postData) : await updateManager(postData);
 
-            // if (res.data.status === 'success') {
-                dispatch({type: "CURRENT_USER_INFO", payload: user });
+            if (res.data.status === 'success') {
+                dispatch({type: "CURRENT_USER_INFO", payload: postData });
                 
                 setAlert( { type: 'success', content: 'Cập nhật thông tin thành công!' });
                 setTimeout(() => {
                     setAlert(null);
                 }, 2000)
-            // } else {
-            //     setAlert( { type: 'error', content: 'Đã xảy ra lỗi, vui lòng thử lại!' });
-            //     setTimeout(() => {
-            //         setAlert(null);
-            //     }, 2000)
-            // }
+            } else {
+                setAlert( { type: 'error', content: 'Đã xảy ra lỗi, vui lòng thử lại!' });
+                setTimeout(() => {
+                    setAlert(null);
+                }, 2000)
+            }
 
         } catch (err) {
             setAlert( { type: 'error', content: err.response.data.message });
@@ -104,8 +131,8 @@ const PersonalUpdateForm = (props) => {
                 {/* Student ID Field - Disabled */}
                 <Grid item lg={6} xs={12} sx={{p: 1}} >
                     <TextField
-                        value={user.email.substring(0, 8)}
-                        disabled
+                        value={user.studentId || user.email.substring(0, 8)}
+                        onChange={handleChange('studentId')}
                         label="Mã số sinh viên"
                         id="input-studentId"
                         sx={{ width: '100%' }}
@@ -201,11 +228,11 @@ const PersonalUpdateForm = (props) => {
                         <Select
                             labelId="faculty-group"
                             id="input-faculty"
-                            value={user.faculty ? user.faculty : faculties[0]}
+                            value={user.faculty ? user.faculty : faculties.find(f => f.fName === 'Khoa')}
                             label="Khoa"
                             onChange={handleChange('faculty')}
                         >
-                            { faculties.map((faculty) => (<MenuItem value={faculty}>{faculty}</MenuItem>)) }
+                            { faculties.map((f) => (<MenuItem value={f.fName}>{f.fName}</MenuItem>)) }
                         </Select>
                     </FormControl>
                 </Grid>
@@ -237,8 +264,8 @@ const PersonalUpdateForm = (props) => {
                     <TextField
                             label="Chức vụ"
                             id="input-position"
-                            value={user.studentPosition}
-                            onChange={handleChange('studentPosition')}
+                            value={user.uPosition}
+                            onChange={handleChange('uPosition')}
                             sx={{ width: '100%' }}
                     />
                 </Grid>
