@@ -5,9 +5,9 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 import StudentManagement from 'components/admin-components/StudentManagement';
+import ManagerManagement from 'components/admin-components/ManagerManagement';
 import FacultyManagement from 'components/admin-components/FacultyManagement';
-const SchoolYear = Loadable(lazy(() => import('components/admin-components/SchoolYear')));
-//const StudentManagement = Loadable(lazy(() => import('components/admin-components/StudentManagement')));
+import SchoolYearManagement from 'components/admin-components/SchoolYearManagement';
 
 const AdminRoutes = {
     path: '/',
@@ -15,7 +15,7 @@ const AdminRoutes = {
     children: [
         {
             path: '/admin/school-year',
-            element: <SchoolYear />
+            element: <SchoolYearManagement />
         },
         {
             path: '/admin/faculties',
@@ -25,6 +25,10 @@ const AdminRoutes = {
             path: '/admin/students',
             element: <StudentManagement />
         },
+        {
+            path: '/admin/student-association',
+            element: <ManagerManagement />
+        }
     ]
 };
 

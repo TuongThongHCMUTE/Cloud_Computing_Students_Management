@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // APIs
-import { getAllStudents, deleteStudent } from 'apis/students';
+import { getAllManagers, deleteManager } from 'apis/managers';
 import { getAllFaculties } from 'apis/faculties';
 
 // material-ui components imports
@@ -16,27 +16,27 @@ import {
 import { gridSpacing } from 'store/constant';
 import Path from 'ui-component/Path';
 
-import TableStudent from './TableStudents';
-import StudentInfoModal from './StudentInfoModal';
+import TableManager from './TableManagers';
+import ManagerInfoModal from './ManagerInfoModal';
 
-const StudentManagement = () => {
-    const [students, setStudents] = useState([]);
+const ManagerManagement = () => {
+    const [managers, setManagers] = useState([]);
     const [faculties, setFaculties] = useState([])
 
     const [openModal, setOpenModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [update, setUpdate] = useState(false);
-    const [studentWillUpdate, setStudentWillUpdate] = useState(null);
+    const [managerWillUpdate, setManagerWillUpdate] = useState(null);
     const [alert, setAlert] = useState(null);
 
     useEffect(() => {
-        const listStudents =  async () => {
+        const listManagers =  async () => {
             try {    
-                const response = await getAllStudents();
-                const students = response.data.data;
+                const response = await getAllManagers();
+                const managers = response.data.data;
         
-                if(students.length > 0) {         
-                    setStudents(students)
+                if(managers.length > 0) {         
+                    setManagers(managers.filter(m => m.uRole === 'HSV'))
                 }
             } catch (error) {
                 console.log(error);
@@ -44,8 +44,7 @@ const StudentManagement = () => {
         };
 
         setLoading(true)
-        console.log("Loading")
-        listStudents().then(() => setLoading(false));
+        listManagers().then(() => setLoading(false));
     }, [update]);
 
     useEffect(() => {
@@ -65,44 +64,44 @@ const StudentManagement = () => {
         listFaculties();
     }, []);
 
-    const pages = ["Quản lý danh sách sinh viên"];
+    const pages = ["Quản lý danh sách Hội sinh viên"];
 
-    const handleOpenModal = (isOpen, studentId) => {
+    const handleOpenModal = (isOpen, managerId) => {
         setOpenModal(isOpen);
         setUpdate(true);
-        setStudentWillUpdate(students.find(s => s.id === studentId));
+        setManagerWillUpdate(managers.find(m => m.id === managerId));
     }
 
     const handleCloseModal = () => {
         setOpenModal(false);
         setUpdate(false);
-        setStudentWillUpdate(null);
+        setManagerWillUpdate(null);
     }
 
-    const handleUpdateStudent= (student) => {
-        const index = students.findIndex(s => s.id === student.id);
+    const handleUpdateManager= (manager) => {
+        const index = managers.findIndex(m => m.id === manager.id);
         if (index === -1 ) {
-            setStudents([...students, student]);
+            setManagers([...managers, manager]);
         } else {
-            setStudents((prev) => {
+            setManagers((prev) => {
                 const newState = prev;
-                newState[index] = student;
+                newState[index] = manager;
                 return newState;
             })
         }
         setUpdate(false);
-        setStudentWillUpdate(null);
+        setManagerWillUpdate(null);
     } 
 
-    const handleDeleteStudent = async (studentId) => {
+    const handleDeleteManager = async (managerId) => {
         try {
-            const res = await deleteStudent(studentId)
+            const res = await deleteManager(managerId)
     
             if (res.data.status === 'success') {
                 setAlert( { type: 'success', content: 'Xóa thành công!' });
 
-                const newStudents = students.filter(s => s.id !== studentId);
-                setStudents(newStudents);
+                const newManagers = managers.filter(m => m.id !== managerId);
+                setManagers(newManagers);
                 
                 setTimeout(() => {
                     setAlert(null);
@@ -115,14 +114,12 @@ const StudentManagement = () => {
             }
     
         } catch (err) {
-            setAlert( { type: 'error', content: err.response.data.message });
+            setAlert( { type: 'error', content: err });
             setTimeout(() => {
                 setAlert(null);
             }, 2000)
         }
     }
-
-    console.log("students: ", students)
 
     return (
         <Grid container spacing={gridSpacing}>
@@ -130,12 +127,12 @@ const StudentManagement = () => {
                 <Path pages={pages} />
             </Grid>
             <Grid xs={12}>
-                <StudentInfoModal 
-                    triggerUpdateStudents={handleUpdateStudent} 
+                <ManagerInfoModal 
+                    triggerUpdateManagers={handleUpdateManager} 
                     triggerCloseModal={handleCloseModal}
                     isOpen={openModal}
                     isUpdate={update}
-                    student={studentWillUpdate} 
+                    manager={managerWillUpdate} 
                     faculties={faculties}
                 />
             </Grid>
@@ -151,10 +148,10 @@ const StudentManagement = () => {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>
-                <TableStudent 
-                    triggerDeleteStudents={handleDeleteStudent} 
+                <TableManager 
+                    triggerDeleteManagers={handleDeleteManager} 
                     triggerOpenModal={handleOpenModal}
-                    data={students} 
+                    data={managers} 
                     faculties={faculties}
                 />
             </Grid>
@@ -162,4 +159,4 @@ const StudentManagement = () => {
     )
 };
 
-export default StudentManagement;
+export default ManagerManagement;

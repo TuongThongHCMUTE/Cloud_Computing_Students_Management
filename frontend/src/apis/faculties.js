@@ -27,17 +27,12 @@ export const createFaculty = (faculty) => {
 }
 
 export const updateFaculty = (faculty) => {
-    console.log("Fac: ", faculty)
     const { updatedAt, id, ...sendData } = faculty;
-
     const option = {
         method: "put",
         url: `${url}/facultys/${id}`,
         data: sendData
     }
-
-    console.log("UPDATE FAC OPTION: ", option)
-
     return axios(option);
 }
 

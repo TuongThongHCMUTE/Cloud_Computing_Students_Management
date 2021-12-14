@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 // material-ui components imports
 import { Grid } from '@material-ui/core';
@@ -14,13 +14,17 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 
 // project components imports
+import AppContext from 'store/AppContext';
 import InfoCard from 'ui-component/cards/InfoCard';
 import { initialState } from 'store/customizationReducer';
 
 // APIs
-import { changePassword } from 'apis/auth';
+import { updateStudent } from 'apis/students';
+import { updateManager} from 'apis/managers';
 
 const PasswordUpdateForm = () => {
+    const { state, dispatch } = useContext(AppContext);
+
     const initState = {
         currentPassword: '',
         newPassword: '',
@@ -55,6 +59,9 @@ const PasswordUpdateForm = () => {
         if (values.currentPassword.length === 0) {
             setAlert( { type: 'error', content: "Nhập mật khẩu cũ!" });
             return;
+        } else if (values.currentPassword !== state.userInfo.password) {
+            setAlert( { type: 'error', content: "Mật khẩu cũ sai" });
+            return;
         } else if (values.newPassword.length === 0) {
             setAlert( { type: 'error', content: "Nhập mật khẩu mới" });
             return;
@@ -68,9 +75,12 @@ const PasswordUpdateForm = () => {
 
         // Call API
         try {
-            const res = await changePassword(values.currentPassword, values.newPassword, values.rePassword);
+            const postData = { ...state.userInfo, password: values.newPassword }
+            const res = state.userInfo.uRole === 'SV' ? await updateStudent(postData) : await updateManager(postData);
 
             if (res.data.status === 'success') {
+                dispatch({type: "CURRENT_USER_INFO", payload: {...state.userInfo, password: values.newPassword }});
+
                 setAlert( { type: 'success', content: 'Cập nhật thông tin thành công!' });
                 setTimeout(() => {
                     setAlert(null);
