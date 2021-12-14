@@ -5,6 +5,7 @@
   "main": "handler.js",
   "dependencies": {
     "aws-sdk": "^2.1025.0",
+    "dotenv": "^10.0.0",
     "redis": "^3.1.2",
     "uuid": "^8.3.2"
   },

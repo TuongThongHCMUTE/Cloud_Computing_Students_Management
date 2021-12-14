@@ -5,3 +5,6 @@ serverless-students-management-rest-api/package-lock.json
 
 # Serverless directories
 serverless-students-management-rest-api/.serverless
+
+# File local
+serverless-students-management-rest-api/yarn.lock

@@ -8,20 +8,23 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-          - dynamodb:*
-          - s3:*
-      Resource: '*'
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:ap-southeast-1:*:*
 
 custom:
   aws_bucket_name: "cloud-comuting-student-management"
+  aws_bucket_region: "ap-southeast-1"
+  aws_access_key: "AKIA4HFALN6GRU4DQTWG"
+  aws_secret_key: "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"
   
 resources:
   Resources:
-    FileUploadBucket:
-        Type: AWS::S3::Bucket
-        Properties:
-            BucketName: ${self:custom.aws_bucket_name}
-            AccessControl: PublicRead
     StudentsTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
@@ -329,22 +332,19 @@ functions:
           method: post
           cors: true
     environment:
-      AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
+      FILE_UPLOAD_BUCKET_NAME: ${self:custom.aws_bucket_name}
+
   downloadFile:
     handler: src/handler/files/downloadFile.downloadFile
     events:
       - http:
-          path: files
+          path: files/{id}
           method: get
           cors: true
-    environment:
-      AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
   deleteFile:
     handler: src/handler/files/deleteFile.deleteFile
     events:
       - http:
-          path: files
+          path: files/{id}
           method: delete
           cors: true
-    environment:
-      AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
