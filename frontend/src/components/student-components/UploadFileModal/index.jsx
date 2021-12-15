@@ -102,11 +102,8 @@ export default function UploadFileModal(props) {
         try {
             setLoading(true)
 
-            console.log("file: ", file);
-
             getBase64(file)
             .then(result => {
-                    console.log("call api")
                     uploadFile({
                         fileName: file.name,
                         file: result
