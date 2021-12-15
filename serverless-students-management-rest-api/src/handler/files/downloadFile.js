@@ -5,9 +5,6 @@
  */
 'use strict'
 
-require('dotenv').config()
-const fs = require('fs')
-const uuid = require('uuid')
 const S3 = require('aws-sdk/clients/s3');
 
 const BUCKET_NAME = process.env.AWS_BUCKET_NAME
