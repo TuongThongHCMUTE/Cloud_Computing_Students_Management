@@ -11,12 +11,14 @@ import CriteriaForm from 'components/student-components/CriteriaForm';
 // merits data imports
 import merits from 'assets/dummy-data/merits'
 
-// ===========================|| ETHNIC MERIT - OTHER CRITERIAS  ||=========================== //
+// ======================|| INTEGRATION CRITERIAS  ||====================== //
 
 const IntegrationActivities = () => {
     // Read list criterias from merits data
-    const ethnic = merits.find(merit => merit.id === 'integration');
-    const ethnicMadatory = ethnic.categories.find(category => category.id === 'integration-activities');
+    const ethnic = merits.find(merit => merit.name === 'integration');
+    const ethnicMadatory = ethnic.categories.find(category => 
+        category.name === 'integration-activities'
+    );
     
     // Set current path
     const pages = ["Hồ sơ", "Hội nhập tốt", "Hoạt động hội nhập"];

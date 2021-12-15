@@ -12,11 +12,10 @@ import CriteriaForm from 'components/student-components/CriteriaForm';
 import merits from 'assets/dummy-data/merits'
 
 // ===========================|| HEALTH MERIT - MANDATORY CRITERIAS  ||=========================== //
-
 const HealthMandatory = () => {
     // Read list criterias from merits data
-    const ethnic = merits.find(merit => merit.id === 'health');
-    const ethnicMadatory = ethnic.categories.find(category => category.id === 'mandatory');
+    const ethnic = merits.find(merit => merit.name === 'health');
+    const ethnicMadatory = ethnic.categories.find(category => category.name === 'mandatory');
     
     // Set current path
     const pages = ["Hồ sơ", "Thể lực tốt"];

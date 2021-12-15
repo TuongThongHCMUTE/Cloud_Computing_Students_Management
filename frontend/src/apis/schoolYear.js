@@ -12,13 +12,18 @@ export const getAllSchoolYears = () => {
     return axios(option);
 }
 
-export const getActiveSchoolYear = () => {
-  const option = {
-      method: "get",
-      url: `${url}/schoolYears/active`
+export const getActiveSchoolYear = async() => {
+  const res = await getAllSchoolYears();
+  if (res.data.status === 'success') {
+    const schoolyears = res.data.data;
+    const activedSchoolYears = 
+      schoolyears.filter(y => y.isShowed === true).sort((y1, y2) => y2.endDate - y1.endDate);
+    if (activedSchoolYears.length > 0) {
+      return activedSchoolYears[0];
+    } else {
+      return null;
+    }
   }
-
-  return axios(option);
 }
 
 export const createSchoolYear = (schoolYear) => {
