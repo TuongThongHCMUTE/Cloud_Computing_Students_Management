@@ -1,25 +1,33 @@
 // use axios to call api
 import axios from 'axios';
-
 // backend url
 import { url } from 'store/constant';
 
-export const uploadFile = (file) => {
+const { uploadFileS3, getFileStreamS3, deleteFileS3 } = require('./s3');
 
-    const option = {
-        method: "post",
-        url: `${url}/files`,
-        data: file
-    }
+export const uploadFile = async (file, folder) => {
     try {
-        const res = axios(option);
-        console.log("res: ", res)
+        const result = await uploadFileS3(file, folder)
+
+        return {
+            status: 'success',
+            message: 'Upload file thành công',
+            data: {
+                displayName: file.originalname,
+                imageKey: result.Key
+            }
+        }
+
     } catch (err) {
         console.log("error: ", err)
+        return {
+            status: 'fail',
+            message: 'Lỗi khi upload file',
+        }
     }
 }
 
-export const uploadAvatar = (file) => {
+export const uploadAvatar = async (file) => {
 
     const formData = new FormData();
     formData.append("avatar", file);
@@ -36,11 +44,11 @@ export const uploadAvatar = (file) => {
     return axios(option);
 }
 
-export const deleteFile = (key) => {
+export const deleteFile = async (key) => {
     const token = localStorage.getItem("token");
     const option = {
         method: "delete",
-        url: `${url}/forms/proofs`,
+        url: `${url}/files`,
         headers: {
             Authorization: `Bearer ${token}`,
         },

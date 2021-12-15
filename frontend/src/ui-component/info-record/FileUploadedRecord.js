@@ -25,7 +25,7 @@ const FileUploadedRecord = ({file, onDelete, allowDelete}) => {
         <Grid className={classes.container} lg={6} sx={12}>
             <img src={fileImageConfig[getFileExtension(file)] || fileImageConfig['default']} alt="" />
             <div className={classes.info}>
-                <a href={url + "/forms/proofs?key=" + file.filePath} target="_blank" rel="noreferrer">{file.name}</a>
+                <a href={url + "/files?fileKey=" + file.filePath} target="_blank" rel="noreferrer">{file.name}</a>
             </div>
             { allowDelete &&
                 <span 

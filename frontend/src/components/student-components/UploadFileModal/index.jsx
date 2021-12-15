@@ -140,7 +140,37 @@ export default function UploadFileModal(props) {
 
             getBase64(file)
             .then(result => {
-                    upload(result, file);
+                    console.log(file)
+                    uploadFile(file, 'proofs')
+                    .then(res => {
+                        console.log(res)
+                        if (res.status === 'success') {
+                            setUploadedFiles((prev) => [...prev, {
+                                name: file.name, 
+                                filePath: res.data.imageKey
+                            }])
+            
+                            setFiles(prevFiles => prevFiles.filter(f => f !== file))
+                            
+                            setAlert({ 
+                                type: 'success', 
+                                content: 'Upload file thành công!' 
+                            });
+                            setTimeout(() => {
+                                setAlert(null);
+                            }, 1000)
+                            setLoading(false)
+                        } else {
+                            setAlert({ 
+                                type: 'error', 
+                                content: 'Đã xảy ra lỗi, vui lòng thử lại!' 
+                            });
+                            setTimeout(() => {
+                                setAlert(null);
+                            }, 1000)
+                            setLoading(false)
+                        }
+                    });
                 }
             )
             .catch(err => {

@@ -22,10 +22,12 @@
         "@testing-library/react": "^11.2.6",
         "@testing-library/user-event": "^12.8.3",
         "apexcharts": "^3.26.1",
+        "aws-sdk": "^2.1046.0",
         "axios": "^0.24.0",
         "clsx": "^1.1.1",
         "formik": "^2.2.6",
         "framer-motion": "^4.1.13",
+        "fs": "0.0.1-security",
         "history": "^5.0.0",
         "material-ui-popup-state": "^1.8.0",
         "moment": "^2.29.1",
@@ -41,6 +43,7 @@
         "react-router-dom": "6.0.0-beta.0",
         "react-scripts": "^4.0.3",
         "redux": "^4.0.5",
+        "uuid": "^8.3.2",
         "yup": "^0.32.9"
     },
     "scripts": {
