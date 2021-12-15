@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const url = 'https://l82b5iv6fe.execute-api.ap-southeast-1.amazonaws.com/dev';
+// backend url
+import { url } from 'store/constant';
 
 export const getAllStudents = () => {
     const option = {
@@ -38,6 +39,5 @@ export const deleteStudent = (studentId) => {
         method: "delete",
         url: `${url}/students/${studentId}`,
     }
-  
     return axios(option);
   }

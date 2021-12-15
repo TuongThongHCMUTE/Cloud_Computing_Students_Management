@@ -29,6 +29,7 @@ const SchoolYearManagement = () => {
     const [alert, setAlert] = useState(null);
 
     const listSchoolYears =  async () => {
+        setLoading(true);
         try {    
             const response = await getAllSchoolYears();
             const schoolYears = response.data.data;
@@ -42,7 +43,6 @@ const SchoolYearManagement = () => {
     };
 
     useEffect(() => {
-        setLoading(true)
         listSchoolYears().then(() => setLoading(false));
     }, [update]);
 

@@ -29,21 +29,21 @@ const ManagerManagement = () => {
     const [managerWillUpdate, setManagerWillUpdate] = useState(null);
     const [alert, setAlert] = useState(null);
 
-    useEffect(() => {
-        const listManagers =  async () => {
-            try {    
-                const response = await getAllManagers();
-                const managers = response.data.data;
-        
-                if(managers.length > 0) {         
-                    setManagers(managers.filter(m => m.uRole === 'HSV'))
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
+    const listManagers =  async () => {
         setLoading(true)
+        try {    
+            const response = await getAllManagers();
+            const managers = response.data.data;
+    
+            if(managers.length > 0) {         
+                setManagers(managers.filter(m => m.uRole === 'HSV'))
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
         listManagers().then(() => setLoading(false));
     }, [update]);
 
@@ -79,18 +79,11 @@ const ManagerManagement = () => {
     }
 
     const handleUpdateManager= (manager) => {
-        const index = managers.findIndex(m => m.id === manager.id);
-        if (index === -1 ) {
-            setManagers([...managers, manager]);
-        } else {
-            setManagers((prev) => {
-                const newState = prev;
-                newState[index] = manager;
-                return newState;
-            })
-        }
-        setUpdate(false);
-        setManagerWillUpdate(null);
+        listManagers().then(() => {
+            setLoading(false);
+            setUpdate(false);
+            setManagerWillUpdate(null);
+        })
     } 
 
     const handleDeleteManager = async (managerId) => {
@@ -98,11 +91,13 @@ const ManagerManagement = () => {
             const res = await deleteManager(managerId)
     
             if (res.data.status === 'success') {
-                setAlert( { type: 'success', content: 'Xóa thành công!' });
-
-                const newManagers = managers.filter(m => m.id !== managerId);
-                setManagers(newManagers);
+                listManagers().then(() => {
+                    setLoading(false);
+                    setUpdate(false);
+                    setManagerWillUpdate(null);
+                })
                 
+                setAlert( { type: 'success', content: 'Xóa thành công!' });
                 setTimeout(() => {
                     setAlert(null);
                 }, 1000)

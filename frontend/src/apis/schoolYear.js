@@ -14,7 +14,7 @@ export const getAllSchoolYears = () => {
 
 export const getActiveSchoolYear = async() => {
   const res = await getAllSchoolYears();
-  if (res.data.status === 'success') {
+  if (res.data.status === 'sucess') {
     const schoolyears = res.data.data;
     const activedSchoolYears = 
       schoolyears.filter(y => y.isShowed === true).sort((y1, y2) => y2.endDate - y1.endDate);

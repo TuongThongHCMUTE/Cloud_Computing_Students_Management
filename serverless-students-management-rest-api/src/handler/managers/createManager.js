@@ -10,7 +10,7 @@ const uuid = require('uuid');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const redis = require('redis');
-const redisUrl = 'redis://3.0.19.255:7001';
+const redisUrl = 'redis://13.214.181.35:7001';
 const redisClient = redis.createClient(redisUrl);
 
 module.exports.createManager = (event, context, callback) => {

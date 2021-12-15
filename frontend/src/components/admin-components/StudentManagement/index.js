@@ -29,22 +29,21 @@ const StudentManagement = () => {
     const [studentWillUpdate, setStudentWillUpdate] = useState(null);
     const [alert, setAlert] = useState(null);
 
-    useEffect(() => {
-        const listStudents =  async () => {
-            try {    
-                const response = await getAllStudents();
-                const students = response.data.data;
-        
-                if(students.length > 0) {         
-                    setStudents(students)
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
+    const listStudents =  async () => {
         setLoading(true)
-        console.log("Loading")
+        try {    
+            const response = await getAllStudents();
+            const students = response.data.data;
+    
+            if(students.length > 0) {         
+                setStudents(students)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
         listStudents().then(() => setLoading(false));
     }, [update]);
 
@@ -80,18 +79,11 @@ const StudentManagement = () => {
     }
 
     const handleUpdateStudent= (student) => {
-        const index = students.findIndex(s => s.id === student.id);
-        if (index === -1 ) {
-            setStudents([...students, student]);
-        } else {
-            setStudents((prev) => {
-                const newState = prev;
-                newState[index] = student;
-                return newState;
-            })
-        }
-        setUpdate(false);
-        setStudentWillUpdate(null);
+        listStudents().then(() => {
+            setLoading(false);
+            setUpdate(false);
+            setStudentWillUpdate(null);
+        });
     } 
 
     const handleDeleteStudent = async (studentId) => {

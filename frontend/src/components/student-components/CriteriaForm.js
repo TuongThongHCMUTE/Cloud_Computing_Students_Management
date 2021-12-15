@@ -17,7 +17,11 @@ import AppContext from 'store/AppContext';
 
 // APIs
 import { getActiveSchoolYear } from 'apis/schoolYear';
-import { getApplicationByFilter, updateApplication } from 'apis/application';
+import { 
+    getApplicationById,
+    getApplicationByFilter, 
+    updateApplication 
+} from 'apis/application';
 
 // project's components import
 import PageTimeOut from 'ui-component/default-page/PageTimeOut';
@@ -32,51 +36,39 @@ const CriteriaForm = ({ criterias }) => {
 
     const { state } = useContext(AppContext);
 
-    useEffect(() => {
-        const getNearestActivedYear =  async () => {
-            try {    
-                const response = await getActiveSchoolYear();
-                const schoolYears = response.data.data.schoolYear;
-
-                return schoolYears;
-            } catch (error) {
-                console.log(error);
-            }
-        };
-    
-        const setUserApplication = async (year) => {
-            if (!year) {
-                setApplication(null);
-                setMerits([]);
-                setLoading(false);
-                return;
-            }
-
-            const user = state.userInfo;
-            const filters = { studentId: user._id, schoolYear: year._id }
-
-            try {
-                // Get student's application
-                const res =  await getApplicationByFilter(filters);
-                if (res.data.status === 'success') {
-                    const application = res.data.data.form;
-
-                    setApplication(application)
-                    setMerits(application.merits)
-                }
-            } catch (err) {
-                setApplication(null);
-                setMerits([]);
-                setLoading(false);
-                console.error(err);
-            }
+    const setUserApplication = async (year) => {
+        if (!year) {
+            setApplication(null);
+            setMerits([]);
+            setLoading(false);
+            return;
         }
 
+        const user = state.userInfo;
+        const filters = { studentId: user.id, schoolYearId: year.id }
+
+        try {
+            // Get student's application
+            const application = await getApplicationByFilter(filters);
+            if (application) {
+                setApplication(application)
+                setMerits(application.merits)
+            }
+        } catch (err) {
+            setApplication(null);
+            setMerits([]);
+            setLoading(false);
+            console.error(err);
+        }
+    }
+
+    useEffect(() => {    
         setLoading(true);
-        getNearestActivedYear()
+        getActiveSchoolYear()
         .then((year) => setUserApplication(year))
         .then(() => setLoading(false));
-    }, [state.userInfo])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleUpdateApplication = async (showAlert, newMerits) => {
         try {
@@ -86,7 +78,10 @@ const CriteriaForm = ({ criterias }) => {
             });
             
             if (res.data.status === 'success') {
-                const newApplicationForm = res.data.data.form;
+                setLoading(true);
+                const newApplicationRes = await getApplicationById(application.id);
+                const newApplicationForm = newApplicationRes.data.data;
+                setLoading(false);
                 setApplication(newApplicationForm)
                 setMerits(newApplicationForm.merits);
 
@@ -175,70 +170,67 @@ const CriteriaForm = ({ criterias }) => {
     })
     
     return (
-        application
-            ? <Grid xs={12} container >
-                    { alert &&
-                        <Stack spacing={2} sx={{ width: '100%' }}>
-                            {alert.map(a => (
-                                <Snackbar 
-                                    open={alert.length} 
-                                    autoHideDuration={2000}
-                                >
-                                    <Alert 
-                                        severity={a.type} 
-                                        variant="filled" 
-                                        sx={{ ml: 3, mt: 2 }}
+        <>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            {application
+                ? <Grid xs={12} container >
+                        { alert &&
+                            <Stack spacing={2} sx={{ width: '100%' }}>
+                                {alert.map(a => (
+                                    <Snackbar 
+                                        open={alert.length} 
+                                        autoHideDuration={2000}
                                     >
-                                        <a 
-                                            href={a.destination} 
-                                            style={{ 
-                                                color: 'var(--color-dark-gray)', 
-                                                fontSize: '11'
-                                            }} 
+                                        <Alert 
+                                            severity={a.type} 
+                                            variant="filled" 
+                                            sx={{ ml: 3, mt: 2 }}
                                         >
-                                            { a.content }
-                                        </a>
-                                    </Alert> 
-                                </Snackbar>
-                            ))}
-                        </Stack>
-                    }
-
-                    { criteriaItems }
-                    <Grid item xs={12} height="64px"/>
-                    <Grid item xs={12} sx={{
-                        background: "#efefef",
-                        position: "fixed",
-                        bottom: 0,
-                        left: "20px",
-                        right: "20px",
-                        zIndex: 1,
-                        borderTop: "1px solid var(--color-medium-blue)"
-                    }}>
-                        <Button 
-                            startIcon={<SaveIcon />} 
-                            variant="contained"         
-                            size="large"
-                            sx={{ float: 'right', m: '12px 20px'}}
-                            onClick={handleSubmit}
-                        >
-                            LƯU HỒ SƠ
-                        </Button>
+                                            <a 
+                                                href={a.destination} 
+                                                style={{ 
+                                                    color: 'var(--color-dark-gray)', 
+                                                    fontSize: '11'
+                                                }} 
+                                            >
+                                                { a.content }
+                                            </a>
+                                        </Alert> 
+                                    </Snackbar>
+                                ))}
+                            </Stack>
+                        }
+                        { criteriaItems }
+                        <Grid item xs={12} height="64px"/>
+                        <Grid item xs={12} sx={{
+                            background: "#efefef",
+                            position: "fixed",
+                            bottom: 0,
+                            left: "20px",
+                            right: "20px",
+                            zIndex: 1,
+                            borderTop: "1px solid var(--color-medium-blue)"
+                        }}>
+                            <Button 
+                                startIcon={<SaveIcon />} 
+                                variant="contained"         
+                                size="large"
+                                sx={{ float: 'right', m: '12px 20px'}}
+                                onClick={handleSubmit}
+                            >
+                                LƯU HỒ SƠ
+                            </Button>
+                        </Grid>
                     </Grid>
-                </Grid>
-            : 
-            <>
-                <Backdrop
-                        sx={{ 
-                            color: '#fff', 
-                            zIndex: (theme) => theme.zIndex.drawer + 1 
-                        }}
-                        open={loading}
-                >
-                    <CircularProgress color="inherit" />
-                </Backdrop>
-                {!loading && <PageTimeOut />}
-            </>
+                : 
+                    !loading && <PageTimeOut />
+            }
+        </>
     )
 }
 

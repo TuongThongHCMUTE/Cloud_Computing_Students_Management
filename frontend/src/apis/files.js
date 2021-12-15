@@ -5,19 +5,11 @@ import axios from 'axios';
 import { url } from 'store/constant';
 
 export const uploadFile = (file) => {
-    const token = localStorage.getItem("token");
-    
-    const formData = new FormData();
-    formData.append("file", file);
-
+    console.log("File data: ", file)
     const option = {
         method: "post",
-        url: `${url}/forms/proofs`,
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-        },
-        data: formData
+        url: `${url}/files`,
+        data: file
     }
     return axios(option);
 }

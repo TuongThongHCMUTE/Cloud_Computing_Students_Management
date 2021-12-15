@@ -18,8 +18,7 @@ module.exports.createForm = (event, context, callback) => {
     const params = {
         TableName: 'forms',
         Item: {
-            // id: uuid.v1(),
-            id: data.email,
+            id: uuid.v1(),
             ...data,
             createdAt: datetime,
             updatedAt: datetime

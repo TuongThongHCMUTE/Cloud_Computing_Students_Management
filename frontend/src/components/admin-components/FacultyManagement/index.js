@@ -31,6 +31,7 @@ const FacultyManagement = () => {
     const [alert, setAlert] = useState(null);
 
     const listFaculties =  async () => {
+        setLoading(true)
         try {    
             const response = await getAllFaculties();
             const faculties = response.data.data;
@@ -44,7 +45,6 @@ const FacultyManagement = () => {
     };
 
     useEffect(() => {
-        setLoading(true)
         listFaculties().then(() => setLoading(false));
     }, [update]);
 

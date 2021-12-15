@@ -26,17 +26,21 @@ export const getApplicationById= (id) => {
 // filter is studentId and schoolYearId
 export const getApplicationByFilter = async (filters) => {
     const { studentId, schoolYearId } = filters;
-
     const res = await getAllApplications();
     try {
-        if (res.data.status === 'success') {      
+        if (res.data.status === 'sucess') {      
             const applications = res.data.data;
             const filteredApplications = 
                 applications.filter(a => a.schoolYearId === schoolYearId && a.studentId === studentId);
+
             if (filteredApplications.length > 0) {
                 return applications[0];
             } else {
-                createApplication(filters);
+
+                const createRes = await createApplication(filters);
+                if (createRes.data.status === 'success') {
+                    return createRes.data.data;
+                }
             }
         }
     } catch (err) {
@@ -45,14 +49,14 @@ export const getApplicationByFilter = async (filters) => {
 }
 
 export const createApplication = (filters) => {
-    const application = { ...filters, merits: [], level: 'Chưa bình xét'}
+    const application = { ...filters, merits: [], expectedLevel: 'Chưa bình xét'}
     const option = {
         method: "post",
         url: `${url}/forms`,
         data: application
     }
     return axios(option);
-  }
+}
   
 
 // update application

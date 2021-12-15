@@ -17,91 +17,91 @@ custom:
   
 resources:
   Resources:
-    # FileUploadBucket:
-    #     Type: AWS::S3::Bucket
-    #     Properties:
-    #         BucketName: ${self:custom.aws_bucket_name}
-    #         AccessControl: PublicRead
-    # StudentsTable:
-    #   Type: 'AWS::DynamoDB::Table'
-    #   DeletionPolicy: Retain
-    #   Properties:
-    #     AttributeDefinitions:
-    #       -
-    #         AttributeName: id
-    #         AttributeType: S
-    #     KeySchema:
-    #       -
-    #         AttributeName: id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 1
-    #       WriteCapacityUnits: 1
-    #     TableName: 'students'
-    # ManagersTable:
-    #   Type: 'AWS::DynamoDB::Table'
-    #   DeletionPolicy: Retain
-    #   Properties:
-    #     AttributeDefinitions:
-    #       -
-    #         AttributeName: id
-    #         AttributeType: S
-    #     KeySchema:
-    #       -
-    #         AttributeName: id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 1
-    #       WriteCapacityUnits: 1
-    #     TableName: 'managers'
-    # FacultysTable:
-    #   Type: 'AWS::DynamoDB::Table'
-    #   DeletionPolicy: Retain
-    #   Properties:
-    #     AttributeDefinitions:
-    #       -
-    #         AttributeName: id
-    #         AttributeType: S
-    #     KeySchema:
-    #       -
-    #         AttributeName: id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 1
-    #       WriteCapacityUnits: 1
-    #     TableName: 'facultys'
-    # SchoolYearsTable:
-    #   Type: 'AWS::DynamoDB::Table'
-    #   DeletionPolicy: Retain
-    #   Properties:
-    #     AttributeDefinitions:
-    #       -
-    #         AttributeName: id
-    #         AttributeType: S
-    #     KeySchema:
-    #       -
-    #         AttributeName: id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 1
-    #       WriteCapacityUnits: 1
-    #     TableName: 'schoolYears'
-    # FormsTable:
-    #   Type: 'AWS::DynamoDB::Table'
-    #   DeletionPolicy: Retain
-    #   Properties:
-    #     AttributeDefinitions:
-    #       -
-    #         AttributeName: id
-    #         AttributeType: S
-    #     KeySchema:
-    #       -
-    #         AttributeName: id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 1
-    #       WriteCapacityUnits: 1
-    #     TableName: 'forms'
+    FileUploadBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+            BucketName: ${self:custom.aws_bucket_name}
+            AccessControl: PublicRead
+    StudentsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'students'
+    ManagersTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'managers'
+    FacultysTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'facultys'
+    SchoolYearsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'schoolYears'
+    FormsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'forms'
 
 functions:
   registerStudent:
@@ -321,30 +321,30 @@ functions:
           method: delete
           cors: true
 
-  # uploadFile:
-  #   handler: src/handler/files/uploadFile.uploadFile
-  #   events:
-  #     - http:
-  #         path: files
-  #         method: post
-  #         cors: true
-  #   environment:
-  #     AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
-  # downloadFile:
-  #   handler: src/handler/files/downloadFile.downloadFile
-  #   events:
-  #     - http:
-  #         path: files
-  #         method: get
-  #         cors: true
-  #   environment:
-  #     AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
-  # deleteFile:
-  #   handler: src/handler/files/deleteFile.deleteFile
-  #   events:
-  #     - http:
-  #         path: files
-  #         method: delete
-  #         cors: true
-  #   environment:
-  #     AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
+  uploadFile:
+    handler: src/handler/files/uploadFile.uploadFile
+    events:
+      - http:
+          path: files
+          method: post
+          cors: true
+    environment:
+      AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
+  downloadFile:
+    handler: src/handler/files/downloadFile.downloadFile
+    events:
+      - http:
+          path: files
+          method: get
+          cors: true
+    environment:
+      AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
+  deleteFile:
+    handler: src/handler/files/deleteFile.deleteFile
+    events:
+      - http:
+          path: files
+          method: delete
+          cors: true
+    environment:
+      AWS_BUCKET_NAME: ${self:custom.aws_bucket_name}
