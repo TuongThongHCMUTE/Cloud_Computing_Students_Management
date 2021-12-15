@@ -4,18 +4,12 @@ import axios from 'axios';
 // backend url
 import { url } from 'store/constant';
 
-export const uploadFile = ({ file, fileName}) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
+export const uploadFile = (file) => {
 
     const option = {
         method: "post",
         url: `${url}/files`,
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        },
-        data: formData
+        data: file
     }
     try {
         const res = axios(option);
