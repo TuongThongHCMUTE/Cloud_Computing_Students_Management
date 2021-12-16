@@ -3,7 +3,7 @@ import axios from 'axios';
 // backend url
 import { url } from 'store/constant';
 
-const { uploadFileS3, getFileStreamS3, deleteFileS3 } = require('./s3');
+const { uploadFileS3 } = require('./s3');
 
 export const uploadFile = async (file, folder) => {
     try {
@@ -28,7 +28,6 @@ export const uploadFile = async (file, folder) => {
 }
 
 export const uploadAvatar = async (file) => {
-
     const formData = new FormData();
     formData.append("avatar", file);
 

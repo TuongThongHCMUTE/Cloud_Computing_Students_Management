@@ -5,6 +5,7 @@ import HomeRoutes from './HomeRoutes';
 import StudentRoutes from './StudentRoutes';
 import AuthenticationRoutes from './AuthenticationRoutes';
 import AdminRoutes from './AdminRoutes';
+import SubManagerRoutes from './SubManagerRoutes';
 
 // ===========================|| ROUTING RENDER ||=========================== //
 
@@ -13,6 +14,7 @@ export default function ThemeRoutes() {
         HomeRoutes, 
         AuthenticationRoutes, 
         StudentRoutes, 
-        AdminRoutes
+        AdminRoutes,
+        SubManagerRoutes
     ]);
 }

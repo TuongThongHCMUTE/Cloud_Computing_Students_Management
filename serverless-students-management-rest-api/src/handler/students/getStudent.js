@@ -25,10 +25,7 @@ module.exports.getStudent = (event, context, callback) => {
             
             const response = {
                 statusCode: 200,
-                body: {
-                    status: 'success',
-                    data: val
-                }
+                body: val
             };
     
             callback(null, response);

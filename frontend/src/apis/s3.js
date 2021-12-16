@@ -2,10 +2,10 @@ const S3 = require('aws-sdk/clients/s3');
 const uuid = require('uuid')
 
 // Config here
-const bucketName = ''
-const region = ''
-const accessKeyId = ''
-const secretAccessKey = ''
+const bucketName = 'cloud-comuting-student-management'
+const region = 'ap-southeast-1'
+const accessKeyId = 'AKIA4HFALN6GTRGP3YUD'
+const secretAccessKey = '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'
 
 const s3 = new S3({
   region,

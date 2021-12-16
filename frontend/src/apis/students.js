@@ -11,6 +11,15 @@ export const getAllStudents = () => {
     return axios(option);
 }
 
+export const getStudentById= (id) => {
+    const option = {
+        method: "get",
+        url: `${url}/students/${id}`
+    }
+  
+    return axios(option);
+}
+
 export const createStudent = (student) => {  
     const option = {
         method: "post",

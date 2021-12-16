@@ -16,8 +16,10 @@ import MenuCard from './MenuCard';
 import { drawerWidth } from 'store/constant';
 
 // import menuItem from 'menu-items';
-import adminMenuItems from 'menu-items/admin';
-import studentMenuItems from 'menu-items/student';
+import adminNavigation from 'menu-items/admin';
+import studentNavigation from 'menu-items/student';
+import subManagerNavigation from 'menu-items/submanager';
+
 
 // constant
 import { userRole } from 'assets/constants';
@@ -68,11 +70,13 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
         if (currentUser) {
             switch (currentUser.uRole) {
                 case userRole.admin:
-                    return adminMenuItems;
+                    return adminNavigation;
                 case userRole.student:
-                    return studentMenuItems;
+                    return studentNavigation;
+                case userRole.manager:
+                    return subManagerNavigation;
                 default:
-                    return studentMenuItems;
+                    return studentNavigation;
             }
         }
     }
