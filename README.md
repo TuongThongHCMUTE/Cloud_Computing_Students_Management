@@ -20,7 +20,7 @@
 # Hướng dẫn cài đặt
 ## 1. Cài đặt serverless và deploy backend
 Trong đề tài này nhóm sử dụng Serverless framework (https://www.serverless.com/) để thiết lập bộ khung và cấu hình ứng dụng. Việc deploy các dịch vụ của AWS cũng sử dụng framework này. Để tiến hành thiết lập và cài đặt thực hiện theo các bước sau đây:
-### Bước 1: Cd bào thư mục serverless-students-management-rest-api và gõ lệnh bên dưới tại terminal để cài đặt serverless frame work
+### Bước 1: Cd vào thư mục serverless-students-management-rest-api và gõ lệnh bên dưới tại terminal để cài đặt serverless frame work
 ```js
 npm install -g serverless
 ```
