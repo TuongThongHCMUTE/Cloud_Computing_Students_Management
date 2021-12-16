@@ -39,15 +39,11 @@ export const getFile = async (key) => {
 }
 
 export const deleteFile = async (key) => {
-    const token = localStorage.getItem("token");
     const option = {
         method: "delete",
         url: `${url}/files`,
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
         params: {
-            key: key
+            fileKey: key
         }
     }
     return axios(option);

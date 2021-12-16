@@ -143,12 +143,16 @@ const StudentManagement = () => {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>
-                <TableStudent 
-                    triggerDeleteStudents={handleDeleteStudent} 
-                    triggerOpenModal={handleOpenModal}
-                    data={students} 
-                    faculties={faculties}
-                />
+                { students.length > 0 ?
+                    <TableStudent 
+                        triggerDeleteStudents={handleDeleteStudent} 
+                        triggerOpenModal={handleOpenModal}
+                        data={students} 
+                        faculties={faculties}
+                    /> 
+                    : <></>
+                }
+
             </Grid>
         </Grid>
     )

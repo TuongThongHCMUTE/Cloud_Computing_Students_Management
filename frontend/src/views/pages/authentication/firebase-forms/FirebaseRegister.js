@@ -145,7 +145,8 @@ const FirebaseRegister = ({ ...others }) => {
                                 password: userInput.password,
 
                                 firstName: userInput.firstName,
-                                lastName: userInput.lastName
+                                lastName: userInput.lastName,
+                                isActived: true
                             }
 
                             const res = await register(postData);

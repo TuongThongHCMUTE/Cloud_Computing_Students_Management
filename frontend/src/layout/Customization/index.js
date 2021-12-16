@@ -92,29 +92,6 @@ const Customization = () => {
     return (
         <>
             {/* toggle button */}
-
-            <Tooltip title="Chat với tư vấn viên">
-                <Fab
-                    component="div"
-                    onClick={handleToggle}
-                    size="medium"
-                    variant="string"
-                    color="secondary"
-                    sx={{
-                        bottom: 0,
-                        m: 4,
-                        position: 'fixed',
-                        right: 20,
-                        zIndex: (theme) => theme.zIndex.speedDial,
-                        boxShadow: theme.shadows[8]
-                    }}
-                >
-                    <IconButton color="inherit" size="large" disableRipple>
-                        <IconMessage />
-                    </IconButton>
-                </Fab>
-            </Tooltip>
-
             <Drawer
                 anchor="right"
                 onClose={handleToggle}

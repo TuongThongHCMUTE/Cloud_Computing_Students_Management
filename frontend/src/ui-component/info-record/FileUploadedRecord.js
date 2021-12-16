@@ -5,7 +5,6 @@ import { deleteFile, getFile } from 'apis/files';
 import classes from "./FileUploadedRecord.module.css";
 
 import { fileImageConfig } from 'store/fileImageConfig';
-import { url } from 'store/constant';
 
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';

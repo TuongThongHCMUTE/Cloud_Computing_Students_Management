@@ -80,7 +80,7 @@ const PersonalInfoTabs = (props) => {
         <TabPanel value={value} index={1}>
             <Grid container xs={12} sx={{ display: 'flex', justifyContent: 'space-between'}} >
                 <Grid item lg={2.5} md={12} xs={12} sm={12} sx={{ mt: '0'}} >
-                    <AvatarUpdate avatar={"default"} />
+                    <AvatarUpdate image={currentUser.image} />
                 </Grid>
                 <Grid item lg={9.4} md={12} xs={12} sm={12} sx={{ mt: '0' }} >
                     <PersonalUpdateForm user={currentUser} />

@@ -2,11 +2,13 @@
 
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 
 // constant
 const icons = {
     EmojiEventsOutlinedIcon,
-    EventNoteIcon
+    EventNoteIcon,
+    ListAltOutlinedIcon
 };
 
 // ===========================|| DASHBOARD MENU ITEMS ||=========================== //
@@ -20,8 +22,8 @@ const dashboard = {
             id: 'merits',
             title: 'Tiêu chí',
             type: 'item',
-            url: '/admin/merit',
-            icon: icons.EmojiEventsOutlinedIcon,
+            url: '/merits',
+            icon: icons.ListAltOutlinedIcon,
             breadcrumbs: false
         },
         {

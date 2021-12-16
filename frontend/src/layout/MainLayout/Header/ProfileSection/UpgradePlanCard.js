@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UpgradePlanCard = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
 
     return (
         <Card className={classes.card}>
@@ -74,7 +76,11 @@ const UpgradePlanCard = () => {
                     <Grid item>
                         <Stack direction="row">
                             <AnimateButton>
-                                <Button variant="contained" className={classes.button}>
+                                <Button 
+                                    variant="contained" 
+                                    className={classes.button}
+                                    onClick={() => { navigate('/info/personal-info') }}
+                                >
                                     Cập nhật
                                 </Button>
                             </AnimateButton>

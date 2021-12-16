@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
@@ -120,9 +120,16 @@ const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
 
-    const [selectedIndex] = React.useState(1);
+    const [selectedIndex] = useState(1);
+    const [open, setOpen] = useState(false);
+    const [avatar, setAvatar ] = useState('default');
 
-    const [open, setOpen] = React.useState(false);
+    useEffect(() => {
+        if (state.userInfo && state.userInfo.image) {
+            setAvatar(state.userInfo.image);
+        }
+    }, [state.userInfo])
+
     const anchorRef = React.useRef(null);
     const navigate = useNavigate();
 
@@ -162,7 +169,7 @@ const ProfileSection = () => {
                 className={classes.profileChip}
                 icon={
                     <Avatar
-                        src={User1}
+                        src={(avatar && avatar !== 'default') ? avatar : User1}
                         className={classes.headerAvatar}
                         ref={anchorRef}
                         aria-controls={open ? 'menu-list-grow' : undefined}

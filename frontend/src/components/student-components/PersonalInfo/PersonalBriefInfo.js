@@ -11,7 +11,7 @@ import IconInfoRecord from 'ui-component/info-record/IconInfoRecord';
 
 const PersonalBriefInfo = ({ user }) => {
     return (
-        <InfoCard header={{ title: user.fullName, subTitle: user.studentId, image: user.avatar }}>
+        <InfoCard header={{ title: user.fullName, subTitle: user.studentId, image: user.image }}>
             <IconInfoRecord title="Email" value={user.email} icon={<MarkunreadIcon/>} />
             <IconInfoRecord title="Số điện thoại" value={user.phoneNumber} icon={<PhoneIcon/>} />
             <IconInfoRecord title="Khoa" value={user.faculty} icon={<HomeIcon/>} />

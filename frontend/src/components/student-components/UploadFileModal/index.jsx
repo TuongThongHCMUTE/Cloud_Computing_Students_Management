@@ -50,27 +50,6 @@ export default function UploadFileModal(props) {
     const [files, setFiles] = useState([]);
     const [uploadedFiles, setUploadedFiles] = useState([]);
 
-    const getBase64 = file => {
-        return new Promise(resolve => {
-          let fileInfo;
-          let baseURL = "";
-          // Make new FileReader
-          let reader = new FileReader();
-    
-          // Convert the file to base64 text
-          reader.readAsDataURL(file);
-    
-          // on reader load somthing...
-          reader.onload = () => {
-            // Make a fileInfo Object
-            baseURL = reader.result;
-            console.log(baseURL);
-            resolve(baseURL);
-          };
-          console.log(fileInfo);
-        });
-      };
-
     const onDragEnter = () => wrapperRef.current.classList.add('dragover');
 
     const onDragLeave = () => wrapperRef.current.classList.remove('dragover');
@@ -98,84 +77,37 @@ export default function UploadFileModal(props) {
         setFiles(updatedList);
     }
 
-    const upload = async (base64, file) => {
-        const res = await uploadFile({
-            fileName: file.name,
-            file: base64
-        })
-
-        // const res = await uploadFile(file)
-
-        if (res.data.status === 'success') {
-            setUploadedFiles((prev) => [...prev, {
-                name: file.name, 
-                filePath: res.data.data.imageKey
-            }])
-
-            setFiles(prevFiles => prevFiles.filter(f => f !== file))
-            
-            setAlert({ 
-                type: 'success', 
-                content: 'Upload file thành công!' 
-            });
-            setTimeout(() => {
-                setAlert(null);
-            }, 1000)
-            setLoading(false)
-        } else {
-            setAlert({ 
-                type: 'error', 
-                content: 'Đã xảy ra lỗi, vui lòng thử lại!' 
-            });
-            setTimeout(() => {
-                setAlert(null);
-            }, 1000)
-            setLoading(false)
-        }
-    }
-
     const handleUploadFile = async (file) => {
         try {
             setLoading(true)
+            const res = await uploadFile(file, 'proofs')
 
-            getBase64(file)
-            .then(result => {
-                    console.log(file)
-                    uploadFile(file, 'proofs')
-                    .then(res => {
-                        console.log(res)
-                        if (res.status === 'success') {
-                            setUploadedFiles((prev) => [...prev, {
-                                name: file.name, 
-                                filePath: res.data.imageKey
-                            }])
-            
-                            setFiles(prevFiles => prevFiles.filter(f => f !== file))
-                            
-                            setAlert({ 
-                                type: 'success', 
-                                content: 'Upload file thành công!' 
-                            });
-                            setTimeout(() => {
-                                setAlert(null);
-                            }, 1000)
-                            setLoading(false)
-                        } else {
-                            setAlert({ 
-                                type: 'error', 
-                                content: 'Đã xảy ra lỗi, vui lòng thử lại!' 
-                            });
-                            setTimeout(() => {
-                                setAlert(null);
-                            }, 1000)
-                            setLoading(false)
-                        }
-                    });
-                }
-            )
-            .catch(err => {
-              console.log(err);
-            });
+            if (res.status === 'success') {
+                setUploadedFiles((prev) => [...prev, {
+                    name: file.name, 
+                    filePath: res.data.imageKey
+                }])
+
+                setFiles(prevFiles => prevFiles.filter(f => f !== file))
+                
+                setAlert({ 
+                    type: 'success', 
+                    content: 'Upload file thành công!' 
+                });
+                setTimeout(() => {
+                    setAlert(null);
+                }, 1000)
+                setLoading(false)
+            } else {
+                setAlert({ 
+                    type: 'error', 
+                    content: 'Đã xảy ra lỗi, vui lòng thử lại!' 
+                });
+                setTimeout(() => {
+                    setAlert(null);
+                }, 1000)
+                setLoading(false)
+            }
         } catch (err) {
             setAlert({ 
                 type: 'error', 
