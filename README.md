@@ -228,8 +228,8 @@ Khi đã hoàn thành các bước trên, website của nhóm đã có thể tru
 [Allow CORS: Access-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf)
 
 # Liên hệ
-[Tường Lê](https://www.facebook.com/tuongle.234/)
-[Thông Đinh](https://www.facebook.com/thong.alpha3105)
+[Tường Lê](https://www.facebook.com/tuongle.234/) |
+[Thông Đinh](https://www.facebook.com/thong.alpha3105) |
 [Bửu Điền](https://www.facebook.com/tranvobuudien)
 
 
