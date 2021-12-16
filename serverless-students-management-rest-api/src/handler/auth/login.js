@@ -29,7 +29,7 @@
         }
 
         if (data.Item) {
-            const response = (data.Item.password === body.password) ? {
+            let response = (data.Item.password === body.password) ? {
                 statusCode: 201,
                 body: JSON.stringify({
                     status: 'success',
@@ -43,6 +43,16 @@
                     message: 'Mật khẩu không đúng'
                 })
             };
+
+            if (!data.Item.isActived) {
+                response = {
+                    statusCode: 404,
+                    body: JSON.stringify({
+                        status: 'fail',
+                        message: 'Tài khoản của bạn đang tạm khóa'
+                    })
+                };
+            }
     
             callback(null, response);
         }
