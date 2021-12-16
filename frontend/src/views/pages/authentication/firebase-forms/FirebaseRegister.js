@@ -146,6 +146,7 @@ const FirebaseRegister = ({ ...others }) => {
 
                                 firstName: userInput.firstName,
                                 lastName: userInput.lastName,
+                                uRole: 'SV',
                                 isActived: true
                             }
 

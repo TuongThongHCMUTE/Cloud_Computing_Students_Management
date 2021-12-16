@@ -72,6 +72,7 @@ const PersonalUpdateForm = (props) => {
 
             if (res.data.status === 'success') {
                 dispatch({type: "CURRENT_USER_INFO", payload: postData });
+                localStorage.setItem('currentUser', JSON.stringify(postData));
                 
                 setAlert( { type: 'success', content: 'Cập nhật thông tin thành công!' });
                 setTimeout(() => {
