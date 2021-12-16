@@ -223,6 +223,10 @@ docker run -p 3000:3000 -d <dockerhub-username>/ aws_students_management:v1
 ### Bước 4: Truy cập website từ web browser:
 Khi đã hoàn thành các bước trên, website của nhóm đã có thể truy cập từ bất cứ đâu thông qua tên miền của EC2 instance tại port 3000.
 
+## 5. Khởi chạy ứng dụng
+Để đảm bảo Backend và Frontend có thể tương tác với nhau cần cài đặt CROS Extention trên Browsers và bật Allow CROS tại link:
+[Allow CORS: Access-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf)
+
 # Liên hệ
 [Tường Lê](https://www.facebook.com/tuongle.234/)
 [Thông Đinh](https://www.facebook.com/thong.alpha3105)
