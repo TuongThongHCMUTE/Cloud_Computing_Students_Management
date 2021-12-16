@@ -27,19 +27,14 @@ export const uploadFile = async (file, folder) => {
     }
 }
 
-export const uploadAvatar = async (file) => {
-    const formData = new FormData();
-    formData.append("avatar", file);
-
+export const getFile = async (key) => {
     const option = {
-        method: "post",
-        url: `${url}/auth/me/avatar`,
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        },
-        data: formData
+        method: "get",
+        url: `${url}/files`,
+        params: {
+            fileKey: key
+        }
     }
-
     return axios(option);
 }
 

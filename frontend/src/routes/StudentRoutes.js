@@ -3,28 +3,36 @@ import React, { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-import PersonalInfo from '../components/student-components/PersonalInfo';
-import EthicMandatory from '../components/student-components/EthicCriteria/EthicMandatory';
-import EthicOthers from 'components/student-components/EthicCriteria/EthicOthers';
-import VolunteerMandatory from 'components/student-components/VolunteerCriteria/VolunteerMandatory';
-import VolunteerOthers from 'components/student-components/VolunteerCriteria/VolunteerOthers';
-import LearningMandatory from 'components/student-components/LearningCriteria/LearningMandatory';
-import LearningOthers from 'components/student-components/LearningCriteria/LearningOthers';
-import HealthMandatory from 'components/student-components/HealthCriteria/HealthMandatory';
-import IntegrationLanguages from 'components/student-components/IntegrationCriteria/IntegrationLanguages';
-import IntegrationSkills from 'components/student-components/IntegrationCriteria/IntegrationSkills';
-import IntegrationActivities from 'components/student-components/IntegrationCriteria/IntegrationActivities';
-import OtherCriteria from 'components/student-components/OtherCriteria';
-
-// dashboard routing
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
-
-// utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
-const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+const Honors = 
+    Loadable(lazy(() => import('components/student-components/Honors')));
+const StudentNotification = 
+    Loadable(lazy(() => import('components/student-components/StudentNotification')));
+const PersonalInfo = 
+    Loadable(lazy(() => import('components/student-components/PersonalInfo')));
+const EthicMandatory = 
+    Loadable(lazy(() => import('components/student-components/EthicCriteria/EthicMandatory')));
+const EthicOthers = 
+    Loadable(lazy(() => import('components/student-components/EthicCriteria/EthicOthers')));
+const VolunteerMandatory = 
+    Loadable(lazy(() => import('components/student-components/VolunteerCriteria/VolunteerMandatory')));
+const VolunteerOthers = 
+    Loadable(lazy(() => import('components/student-components/VolunteerCriteria/VolunteerOthers')));
+const LearningMandatory = 
+    Loadable(lazy(() => import('components/student-components/LearningCriteria/LearningMandatory')));
+const LearningOthers = 
+    Loadable(lazy(() => import('components/student-components/LearningCriteria/LearningOthers')));
+const HealthMandatory = 
+    Loadable(lazy(() => import('components/student-components/HealthCriteria/HealthMandatory')));
+const IntegrationLanguages = 
+    Loadable(lazy(() => import('components/student-components/IntegrationCriteria/IntegrationLanguages')));
+const IntegrationSkills = 
+    Loadable(lazy(() => import('components/student-components/IntegrationCriteria/IntegrationSkills')));
+const IntegrationActivities = 
+    Loadable(lazy(() => import('components/student-components/IntegrationCriteria/IntegrationActivities')));
+const OtherCriteria = 
+    Loadable(lazy(() => import('components/student-components/OtherCriteria')));
+const MeritManagement = 
+    Loadable(lazy(() => import('components/admin-components/MeritManagement')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -36,36 +44,12 @@ const StudentRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: '/home',
-            element: <PersonalInfo />
+            path: '/merits',
+            element: <MeritManagement />
         },
         {
-            path: '/dashboard/default',
-            element: <DashboardDefault />
-        },
-        {
-            path: '/utils/util-typography',
-            element: <UtilsTypography />
-        },
-        {
-            path: '/utils/util-color',
-            element: <UtilsColor />
-        },
-        {
-            path: '/utils/util-shadow',
-            element: <UtilsShadow />
-        },
-        {
-            path: '/icons/tabler-icons',
-            element: <UtilsTablerIcons />
-        },
-        {
-            path: '/icons/material-icons',
-            element: <UtilsMaterialIcons />
-        },
-        {
-            path: '/sample-page',
-            element: <SamplePage />
+            path: '/dashboard/tuyen-duong',
+            element: <Honors />
         },
         {
             path: '/info/personal-info',
@@ -114,6 +98,10 @@ const StudentRoutes = {
         {
             path: '/info/other-criterias',
             element: <OtherCriteria />
+        },
+        {
+            path: '/other/thong-bao',
+            element: <StudentNotification />
         }
     ]
 };

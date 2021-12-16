@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deleteFile } from 'apis/files';
+import { deleteFile, getFile } from 'apis/files';
 
 import classes from "./FileUploadedRecord.module.css";
 
@@ -16,16 +16,26 @@ const FileUploadedRecord = ({file, onDelete, allowDelete}) => {
         onDelete()
     }
 
+    const handleGetFile = async () => {
+        const res = await getFile(file.filePath);
+        if (res.data.status === 'success') {
+            window.open(res.data.url, '_blank');
+        }
+    }
+
     const getFileExtension = (file) => {
         const array = file.name.split('.');
         return array[array.length - 1];
     }
 
+
+
     return (
         <Grid className={classes.container} lg={6} sx={12}>
             <img src={fileImageConfig[getFileExtension(file)] || fileImageConfig['default']} alt="" />
-            <div className={classes.info}>
-                <a href={url + "/files?fileKey=" + file.filePath} target="_blank" rel="noreferrer">{file.name}</a>
+            <div className={classes.info} onClick={handleGetFile}>
+                {/* <a href={url + "/files?fileKey=" + file.filePath} target="_blank" rel="noreferrer">{file.name}</a> */}
+                {file.name}
             </div>
             { allowDelete &&
                 <span 

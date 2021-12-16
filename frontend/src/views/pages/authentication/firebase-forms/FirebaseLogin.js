@@ -194,7 +194,7 @@ const FirebaseLogin = (props, { ...others }) => {
 
                                 setStatus({ success: true });
                                 setSubmitting(false);
-                                navigate('/home')                            
+                                navigate('/merits')                            
                             } else {
                                 setAlert( { type: 'error', content: 'Đã xảy ra lỗi, vui lòng thử lại!' });
                             }

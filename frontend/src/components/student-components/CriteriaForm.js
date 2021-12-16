@@ -50,6 +50,7 @@ const CriteriaForm = ({ criterias }) => {
         try {
             // Get student's application
             const application = await getApplicationByFilter(filters);
+            console.log("application", application)
             if (application) {
                 setApplication(application)
                 setMerits(application.merits)

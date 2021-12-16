@@ -33,7 +33,7 @@ const Header = (props) => {
                         <MenuIcon />
                         <Box className={classes['mobile-menu']}>
                             { userInfo ? 
-                                <Link className={classes['mobile-home']} to="/home"><b>Trang cá nhân</b></Link> 
+                                <Link className={classes['mobile-home']} to="/merits"><b>Trang cá nhân</b></Link> 
                                 : 
                                 <>
                                     <Link className={classes['mobile-auth']} to="/login">Đăng nhập</Link>
@@ -45,7 +45,7 @@ const Header = (props) => {
 
                     <Box className={classes.pages}>
                         { userInfo
-                            ? <Link className={classes.home} to="/home"><b>Trang cá nhân</b></Link>
+                            ? <Link className={classes.home} to="/merits"><b>Trang cá nhân</b></Link>
                             : 
                             <>
                                 <Link className={classes.auth} to="/login">Đăng nhập</Link>

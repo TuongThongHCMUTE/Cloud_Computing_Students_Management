@@ -50,6 +50,7 @@ const ApplicationDetail = () => {
     useEffect(() => {
         const getApplication = async (id) => {
             const res = await getApplicationById(id);
+            console.log("app res", res)
             if (res.data.status === 'success') {
                 const application = res.data.data;
                 setApplication(application);
@@ -61,15 +62,16 @@ const ApplicationDetail = () => {
 
         const getStudent = async (id) => {
             const res = await getStudentById(id);
+            
             if (res.data.status === 'success') {
-                const student = res.data.data.student;
+                const student = res.data.data;
+                console.log("stu", student)
                 setStudent(student);
             } else {
                 return null;
             }
         } 
 
-        console.log("id: ", id)
         setLoading(true);
         getApplication(id)
         .then((application) => getStudent(application.studentId))
@@ -83,7 +85,7 @@ const ApplicationDetail = () => {
             expectedLevel: level 
         });
         if (res.data.status === 'success') {
-            setApplication(prev => ({...prev, level: level}));
+            setApplication(prev => ({...prev, expectedLevel: level}));
         }
     }
 
@@ -108,7 +110,7 @@ const ApplicationDetail = () => {
                 { application && student && 
                     <SecondaryCard sx={{ padding: '16px 16px'}}>
                         <ApplicationInfoTabs 
-                            role={state.userInfo.role} 
+                            role={state.userInfo.uRole} 
                             merits={merits}
                             application={application}
                             student={student}
@@ -136,7 +138,7 @@ const ApplicationDetail = () => {
             }}>
                 {
                     "Kết quả: " 
-                    + application.level
+                    + application.expectedLevel
                 }
             </Typography>
             <Typography sx={{
@@ -147,7 +149,7 @@ const ApplicationDetail = () => {
             }}>
                 {
                     "Họ và tên: " 
-                    + student.name.lastName + " " + student.name.firstName 
+                    + student.fullName
                 }
             </Typography>
         </Grid>}
@@ -161,7 +163,7 @@ const ApplicationDetail = () => {
             ariaLabel="SpeedDial basic example"
             sx={{ position: 'fixed', top: "96px", right: "56px" }}
             direction='down'
-            hidden={state.userInfo.role !== 'LCH'}
+            hidden={state.userInfo.uRole !== 'HSV'}
             icon={<SpeedDialIcon />}
         >
             {actions.map((action) => (

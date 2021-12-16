@@ -26,19 +26,21 @@ export const getApplicationById= (id) => {
 // filter is studentId and schoolYearId
 export const getApplicationByFilter = async (filters) => {
     const { studentId, schoolYearId } = filters;
+    console.log("filters: ", filters);
     const res = await getAllApplications();
     try {
         if (res.data.status === 'sucess') {      
             const applications = res.data.data;
             const filteredApplications = 
                 applications.filter(a => a.schoolYearId === schoolYearId && a.studentId === studentId);
-
+            console.log("filteredApplications: ", filteredApplications);
             if (filteredApplications.length > 0) {
-                return applications[0];
+                return filteredApplications[0];
             } else {
 
                 const createRes = await createApplication(filters);
                 if (createRes.data.status === 'success') {
+                    console.log("create application: ", createRes.data.data);
                     return createRes.data.data;
                 }
             }
