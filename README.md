@@ -8,7 +8,7 @@
 * Trần Võ Bửu Điền | 18110092
 
 ## Deploy ứng dụng trên EC2 AWS
-[Website quản lý thông tin sinh viên 5 tốt](https://main.d2w26m07cywgez.amplifyapp.com/)
+[Website quản lý thông tin sinh viên 5 tốt](http://ec2-13-214-181-35.ap-southeast-1.compute.amazonaws.com:3000/)
 
 ## Các công nghệ sử dụng
 * Backend Lambda function
